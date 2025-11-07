@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+    <!-- Favicon et icônes -->
+    <link rel="icon" type="image/png" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="shortcut icon" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="apple-touch-icon" href="/frontend/static/DiasLogo.jpeg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Splash Screen</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color:#fff; /* fond noir */
+      color: #082d53; /* bleu nuit */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: "Montserrat", sans-serif;
+      overflow: hidden;
+      position: relative;
+    }
+
+    img {
+      width: 280px;
+      height: 280px;
+      object-fit: contain;
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    .slogan {
+      margin-top: 10px;
+      font-style: italic;
+      font-size: 1.1rem;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .slogan.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Effet de fondu de sortie */
+    .fade-out {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: #082d53;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .fade-out.active {
+      opacity: 1;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <!-- Logo -->
+  <img src="static/DiasLogo.jpeg" alt="Logo" id="logo">
+
+  <!-- Slogans -->
+  <div class="slogan" id="slogan1">Ваш международный сервис перевода и путешествий</div>
+  <div class="slogan" id="slogan2">Your international translation and travel service</div>
+  <div class="slogan" id="slogan3">Votre Service de traduction international et de voyage</div>
+
+  <!-- Couche de fondu -->
+  <div class="fade-out" id="fade"></div>
+
+  <script>
+    const slogans = [
+      document.getElementById("slogan1"),
+      document.getElementById("slogan2"),
+      document.getElementById("slogan3")
+    ];
+
+    // Affichage progressif des slogans
+    slogans.forEach((slogan, index) => {
+      setTimeout(() => {
+        slogan.classList.add("show");
+      }, (index + 1) * 1000); // 1s d’intervalle entre chaque apparition
+    });
+
+    // Effet de fondu + redirection après 5 secondes
+    setTimeout(() => {
+      const fade = document.getElementById("fade");
+      fade.classList.add("active");
+      setTimeout(() => {
+        window.location.href = "home.html";
+      }, 1000); // redirection après fondu
+    }, 5000);
+  </script>
+</body>
+</html>

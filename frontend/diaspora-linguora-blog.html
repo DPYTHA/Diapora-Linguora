@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="shortcut icon" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="apple-touch-icon" href="/frontend/static/DiasLogo.jpeg">
+  <title>Tours Exclusifs - Diaspora Linguora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #06b6d4;
+      --accent: #8b5cf6;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --orange: #f97316;
+      --text: #1e293b;
+      --text-light: #64748b;
+    }
+
+    .tours-hero {
+      background: linear-gradient(135deg, 
+        rgba(37, 99, 235, 0.9) 0%, 
+        rgba(6, 182, 212, 0.8) 50%, 
+        rgba(16, 185, 129, 0.8) 100%),
+        url('https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover;
+      color: white;
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      border-radius: 0 0 40px 40px;
+    }
+
+    .country-section {
+      padding: 4rem 5%;
+      margin: 2rem 0;
+      border-radius: 30px;
+      background: linear-gradient(145deg, #ffffff, #f8fafc);
+      box-shadow: 20px 20px 60px #d1d9e6, -20px -20px 60px #ffffff;
+    }
+
+    .country-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .country-flag {
+      font-size: 4rem;
+      margin-bottom: 1rem;
+    }
+
+    .photo-gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      height: 200px;
+      filter: grayscale(100%);
+      transition: all 0.4s ease;
+      cursor: pointer;
+    }
+
+    .gallery-item:hover {
+      filter: grayscale(0%);
+      transform: scale(1.05);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.3);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .tour-highlights {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+
+    .highlight-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
+      transition: all 0.3s ease;
+      border-left: 5px solid var(--primary);
+    }
+
+    .highlight-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(37, 99, 235, 0.2);
+    }
+
+    .highlight-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+    }
+
+    .booking-section {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 3rem;
+      border-radius: 25px;
+      margin: 3rem 0;
+      text-align: center;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .calendar-day {
+      background: rgba(255, 255, 255, 0.2);
+      padding: 1.5rem 1rem;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 2px solid transparent;
+    }
+
+    .calendar-day:hover {
+      background: rgba(255, 255, 255, 0.3);
+      border-color: white;
+      transform: scale(1.05);
+    }
+
+    .calendar-day.selected {
+      background: white;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .price-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+      margin: 2rem 0;
+      border: 3px solid var(--success);
+    }
+
+    .price-amount {
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--success);
+      margin: 1rem 0;
+    }
+
+    .country-features {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    .feature-tag {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .duration-badge {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--warning);
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .itinerary-list {
+      list-style: none;
+      margin: 2rem 0;
+    }
+
+    .itinerary-list li {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: rgba(37, 99, 235, 0.05);
+      border-radius: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .itinerary-list li:hover {
+      background: rgba(37, 99, 235, 0.1);
+      transform: translateX(10px);
+    }
+
+    .itinerary-list i {
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; background: rgba(255, 255, 255, 0.95); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 20px rgba(0,0,0,0.1);">
+    <div style="font-weight: 800; font-size: 1.5rem; background: linear-gradient(135deg, var(--primary), var(--secondary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      Diaspora Linguora
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="tours-hero">
+    <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">🌍 Tours Exclusifs</h1>
+    <p style="font-size: 1.3rem; max-width: 600px; margin: 0 auto;">
+      Découvrez la magie de l'Afrique avec nos circuits premium en Tanzanie et Côte d'Ivoire
+    </p>
+    <div style="margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+      <span style="background: rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 25px; backdrop-filter: blur(10px);">
+        🇹🇿 Safari Tanzanie
+      </span>
+      <span style="background: rgba(255,255,255,0.2); padding: 1rem 2rem; border-radius: 25px; backdrop-filter: blur(10px);">
+        🇨🇮 Culture Côte d'Ivoire
+      </span>
+    </div>
+  </section>
+
+  <!-- Tanzanie Section -->
+  <section class="country-section">
+    <div class="country-header">
+      <div class="country-flag">🇹🇿</div>
+      <h2 style="font-size: 2.8rem; color: var(--text); margin-bottom: 1rem;">
+        Safari Aventure en Tanzanie
+      </h2>
+      <p style="font-size: 1.2rem; color: var(--text-light); max-width: 600px; margin: 0 auto;">
+        Explorez les parcs nationaux légendaires et rencontrez le Big Five
+      </p>
+    </div>
+
+    <!-- Galerie Photo Tanzanie -->
+    <div class="photo-gallery">
+      <div class="gallery-item">
+        <div class="duration-badge">8 Jours</div>
+        <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Serengeti">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Kilimandjaro">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Ngorongoro">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Zèbres">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Plage Zanzibar">
+      </div>
+    </div>
+
+    <div class="country-features">
+      <div class="feature-tag">
+        <i class="fas fa-lion"></i> Big Five
+      </div>
+      <div class="feature-tag">
+        <i class="fas fa-hiking"></i> Randonnée
+      </div>
+      <div class="feature-tag">
+        <i class="fas fa-camera"></i> Photo Safari
+      </div>
+      <div class="feature-tag">
+        <i class="fas fa-umbrella-beach"></i> Zanzibar
+      </div>
+    </div>
+
+    <!-- Points Forts -->
+    <div class="tour-highlights">
+      <div class="highlight-card">
+        <div class="highlight-icon">🦁</div>
+        <h3>Safari Serengeti</h3>
+        <p>Observation des lions, éléphants et léopards dans leur habitat naturel</p>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">🏔️</div>
+        <h3>Crâtre Ngorongoro</h3>
+        <p>Découverte de la plus grande caldeira intacte du monde</p>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">🏝️</div>
+        <h3>Zanzibar</h3>
+        <p>Détente sur les plages de sable blanc et exploration de Stone Town</p>
+      </div>
+    </div>
+
+    <!-- Itinéraire -->
+    <div style="margin: 3rem 0;">
+      <h3 style="text-align: center; margin-bottom: 2rem; color: var(--primary);">🗓️ Itinéraire Détaillé</h3>
+      <ul class="itinerary-list">
+        <li>
+          <i class="fas fa-map-marker-alt"></i>
+          <span><strong>Jour 1:</strong> Arrivée à Arusha - Briefing safari</span>
+        </li>
+        <li>
+          <i class="fas fa-map-marker-alt"></i>
+          <span><strong>Jour 2-4:</strong> Safari Parc National Serengeti</span>
+        </li>
+        <li>
+          <i class="fas fa-map-marker-alt"></i>
+          <span><strong>Jour 5:</strong> Crâtre Ngorongoro - Observation animaux</span>
+        </li>
+        <li>
+          <i class="fas fa-map-marker-alt"></i>
+          <span><strong>Jour 6-7:</strong> Vol vers Zanzibar - Plage et culture</span>
+        </li>
+        <li>
+          <i class="fas fa-map-marker-alt"></i>
+          <span><strong>Jour 8:</strong> Retour à Dar es Salaam - Départ</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Prix et Réservation -->
+    <div class="price-card">
+      <h3 style="color: var(--text); margin-bottom: 1rem;">💰 Package Complet</h3>
+      <div class="price-amount">1.850€</div>
+      <p style="color: var(--text-light); margin-bottom: 2rem;">Tout inclus - Vols, hébergement, safari, guide</p>
+      
+      <div class="booking-section">
+        <h3 style="margin-bottom: 1.5rem;">📅 Choisissez Votre Date de Départ</h3>
+        <div class="calendar-grid">
+          <div class="calendar-day" onclick="selectDate(this)">
+            <div>15 Mars</div>
+            <small>2024</small>
+          </div>
+          <div class="calendar-day" onclick="selectDate(this)">
+            <div>5 Avril</div>
+            <small>2024</small>
+          </div>
+          <div class="calendar-day" onclick="selectDate(this)">
+            <div>20 Mai</div>
+            <small>2024</small>
+          </div>
+          <div class="calendar-day" onclick="selectDate(this)">
+            <div>10 Juin</div>
+            <small>2024</small>
+          </div>
+        </div>
+        <button style="background: white; color: var(--primary); border: none; padding: 1.2rem 3rem; border-radius: 15px; font-weight: 600; font-size: 1.1rem; cursor: pointer; margin-top: 1.5rem; transition: all 0.3s ease;" 
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(255,255,255,0.3)'" 
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+          Réserver Maintenant 🇹🇿
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Côte d'Ivoire Section -->
+  <section class="country-section" style="background: linear-gradient(145deg, #fff5f5, #fed7d7);">
+    <div class="country-header">
+      <div class="country-flag">🇨🇮</div>
+      <h2 style="font-size: 2.8rem; color: var(--text); margin-bottom: 1rem;">
+        Découverte Culturelle Côte d'Ivoire
+      </h2>
+      <p style="font-size: 1.2rem; color: var(--text-light); max-width: 600px; margin: 0 auto;">
+        Immersion totale dans la richesse culturelle ivoirienne
+      </p>
+    </div>
+
+    <!-- Galerie Photo Côte d'Ivoire -->
+    <div class="photo-gallery">
+      <div class="gallery-item">
+        <div class="duration-badge">6 Jours</div>
+        <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Abidjan">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Basilique">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Village">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Plage">
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1516426122078-c23e76319801?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Forêt">
+      </div>
+    </div>
+
+    <div class="country-features">
+      <div class="feature-tag" style="background: linear-gradient(135deg, var(--orange), var(--warning));">
+        <i class="fas fa-utensils"></i> Cuisine Locale
+      </div>
+      <div class="feature-tag" style="background: linear-gradient(135deg, var(--orange), var(--warning));">
+        <i class="fas fa-music"></i> Danse Traditionnelle
+      </div>
+      <div class="feature-tag" style="background: linear-gradient(135deg, var(--orange), var(--warning));">
+        <i class="fas fa-hands"></i> Artisanat
+      </div>
+      <div class="feature-tag" style="background: linear-gradient(135deg, var(--orange), var(--warning));">
+        <i class="fas fa-tree"></i> Parcs Naturels
+      </div>
+    </div>
+
+    <!-- Points Forts -->
+    <div class="tour-highlights">
+      <div class="highlight-card">
+        <div class="highlight-icon">🏙️</div>
+        <h3>Abidjan la Belle</h3>
+        <p>Découverte de la capitale économique et ses monuments emblématiques</p>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">⛪</div>
+        <h3>Basilique de Yamoussoukro</h3>
+        <p>Visite de la plus grande basilique du monde</p>
+      </div>
+      <div class="highlight-card">
+        <div class="highlight-icon">🌴</div>
+        <h3>Villages Traditionnels</h3>
+        <p>Rencontre avec les communautés et découverte des cultures locales</p>
+      </div>
+    </div>
+
+    <!-- Itinéraire -->
+    <div style="margin: 3rem 0;">
+      <h3 style="text-align: center; margin-bottom: 2rem; color: var(--orange);">🗓️ Itinéraire Culturel</h3>
+      <ul class="itinerary-list">
+        <li>
+          <i class="fas fa-map-marker-alt"></i>
+          <span><strong>Jour 1:</strong> Arrivée Abidjan - Plateau et Cocody</span>
+        </li>
+        <li>
+          <i class="fas fa-map-marker-alt"></i>
+          <span><strong>Jour 2:</strong> Marché de Treichville - Cuisine ivoirienne</span>
+        </li>
+        <li>
+          <i class="fas fa-map-marker-alt"></i>
+          <span><strong>Jour 3:</strong> Yamoussoukro - Basilique et lac aux caïmans</span>
+        </li>
+        <li>
+          <i class="fas fa-map-marker-alt"></i>
+          <span><strong>Jour 4:</strong> Village traditionnel - Danses et artisanat</span>
+        </li>
+        <li>
+          <i class="fas fa-map-marker-alt"></i>
+          <span><strong>Jour 5:</strong> Parc national - Randonnée écologique</span>
+        </li>
+        <li>
+          <i class="fas fa-map-marker-alt"></i>
+          <span><strong>Jour 6:</strong> Shopping souvenirs - Départ</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Prix et Réservation -->
+    <div class="price-card" style="border-color: var(--orange);">
+      <h3 style="color: var(--text); margin-bottom: 1rem;">💰 Expérience Culturelle</h3>
+      <div class="price-amount" style="color: var(--orange);">950€</div>
+      <p style="color: var(--text-light); margin-bottom: 2rem;">Hébergement, repas, activités inclus</p>
+      
+      <div class="booking-section" style="background: linear-gradient(135deg, var(--orange), var(--warning));">
+        <h3 style="margin-bottom: 1.5rem;">📅 Choisissez Votre Date de Départ</h3>
+        <div class="calendar-grid">
+          <div class="calendar-day" onclick="selectDate(this)">
+            <div>22 Mars</div>
+            <small>2024</small>
+          </div>
+          <div class="calendar-day" onclick="selectDate(this)">
+            <div>12 Avril</div>
+            <small>2024</small>
+          </div>
+          <div class="calendar-day" onclick="selectDate(this)">
+            <div>3 Mai</div>
+            <small>2024</small>
+          </div>
+          <div class="calendar-day" onclick="selectDate(this)">
+            <div>25 Mai</div>
+            <small>2024</small>
+          </div>
+        </div>
+        <button style="background: white; color: var(--orange); border: none; padding: 1.2rem 3rem; border-radius: 15px; font-weight: 600; font-size: 1.1rem; cursor: pointer; margin-top: 1.5rem; transition: all 0.3s ease;" 
+                onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(255,255,255,0.3)'" 
+                onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+          Réserver Maintenant 🇨🇮
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function selectDate(element) {
+      // Retirer la sélection précédente
+      document.querySelectorAll('.calendar-day').forEach(day => {
+        day.classList.remove('selected');
+      });
+      
+      // Ajouter la sélection
+      element.classList.add('selected');
+      
+      // Ici vous pouvez ajouter la logique pour stocker la date sélectionnée
+      console.log('Date sélectionnée:', element.textContent);
+    }
+
+    // Animation au scroll
+    document.addEventListener('DOMContentLoaded', function() {
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+      };
+
+      const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = "1";
+            entry.target.style.transform = "translateY(0)";
+          }
+        });
+      }, observerOptions);
+
+      // Observer les éléments à animer
+      document.querySelectorAll('.country-section').forEach(section => {
+        section.style.opacity = "0";
+        section.style.transform = "translateY(30px)";
+        section.style.transition = "all 0.6s ease";
+        observer.observe(section);
+      });
+    });
+  </script>
+</body>
+</html>

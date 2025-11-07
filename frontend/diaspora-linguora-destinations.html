@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="shortcut icon" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="apple-touch-icon" href="/frontend/static/DiasLogo.jpeg">
+  <title>Destinations - Diaspora Linguora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #667eea;
+      --primary-dark: #5a6fd8;
+      --secondary: #764ba2;
+      --accent: #f093fb;
+      --success: #4fd1c7;
+      --dark: #2d3748;
+      --light: #f7fafc;
+      --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    .hero-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 100px 0 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff" opacity="0.1"><polygon points="1000,100 1000,0 0,100"></polygon></svg>');
+      background-size: cover;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .hero-subtitle {
+      font-size: 1.3rem;
+      font-weight: 400;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    .search-bar {
+      max-width: 500px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 15px 20px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .search-bar button {
+      position: absolute;
+      right: 5px;
+      top: 5px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 20px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .search-bar button:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Navigation par continent */
+    .continent-nav {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 40px 0;
+      flex-wrap: wrap;
+    }
+
+    .continent-btn {
+      background: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 50px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .continent-btn:hover, .continent-btn.active {
+      background: var(--primary);
+      color: white;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Sections de continent */
+    .continent-section {
+      margin: 60px 0;
+      display: none;
+      animation: fadeIn 0.8s ease;
+    }
+
+    .continent-section.active {
+      display: block;
+    }
+
+    .continent-title {
+      text-align: center;
+      margin-bottom: 40px;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--dark);
+      position: relative;
+    }
+
+    .continent-title::after {
+      content: '';
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+      margin: 15px auto 0;
+      border-radius: 10px;
+    }
+
+    /* Grille des destinations */
+    .destination-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+      padding: 20px 0;
+    }
+
+    .destination-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .destination-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .destination-media {
+      height: 250px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .destination-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .destination-card:hover .destination-image {
+      transform: scale(1.05);
+    }
+
+    .destination-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .video-indicator {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .destination-flag {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      font-size: 2rem;
+      background: white;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .destination-content {
+      padding: 25px;
+    }
+
+    .destination-name {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: var(--dark);
+    }
+
+    .destination-description {
+      color: #718096;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    .destination-languages {
+      display: flex;
+      gap: 8px;
+      margin: 15px 0;
+      flex-wrap: wrap;
+    }
+
+    .lang-tag {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+
+    .destination-features {
+      display: flex;
+      justify-content: space-between;
+      margin: 20px 0;
+      padding-top: 15px;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .feature {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .feature i {
+      font-size: 1.2rem;
+      color: var(--primary);
+      margin-bottom: 5px;
+    }
+
+    .feature span {
+      font-size: 0.8rem;
+      color: #718096;
+    }
+
+    .destination-btn {
+      display: block;
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      text-align: center;
+      padding: 12px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      margin-top: 15px;
+    }
+
+    .destination-btn:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      
+      .destination-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .continent-nav {
+        gap: 10px;
+      }
+      
+      .continent-btn {
+        padding: 10px 15px;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">✈️ Explorez le Monde avec Nous</h1>
+        <p class="hero-subtitle">Découvrez nos destinations exceptionnelles avec assistance linguistique personnalisée</p>
+        <div class="search-bar">
+          <input type="text" placeholder="Rechercher une destination...">
+          <button><i class="fas fa-search"></i></button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Navigation par continent -->
+  <div class="container">
+    <div class="continent-nav">
+      <button class="continent-btn active" data-continent="afrique">
+        <i class="fas fa-globe-africa"></i> Afrique
+      </button>
+      <button class="continent-btn" data-continent="europe">
+        <i class="fas fa-globe-europe"></i> Europe
+      </button>
+      <button class="continent-btn" data-continent="asie">
+        <i class="fas fa-globe-asia"></i> Asie
+      </button>
+      <button class="continent-btn" data-continent="amerique">
+        <i class="fas fa-globe-americas"></i> Amériques
+      </button>
+    </div>
+  </div>
+
+  <!-- Section Afrique -->
+  <section class="continent-section active" id="afrique">
+    <div class="container">
+      <h2 class="continent-title">🌍 Destinations Africaines</h2>
+      <div class="destination-grid">
+        
+        <!-- Côte d'Ivoire -->
+        <div class="destination-card">
+          <div class="destination-media">
+            <img src="https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Côte d'Ivoire" class="destination-image">
+            <div class="video-indicator">
+              <i class="fas fa-play"></i> Vidéo disponible
+            </div>
+            <div class="destination-flag">🇨🇮</div>
+          </div>
+          <div class="destination-content">
+            <h3 class="destination-name">Côte d'Ivoire</h3>
+            <p class="destination-description">Découvrez Abidjan, la perle des lagunes, et les plages de Grand-Bassam. Immersion culturelle avec nos guides locaux.</p>
+            <div class="destination-languages">
+              <span class="lang-tag">🇫🇷 Français</span>
+              <span class="lang-tag">🇬🇧 Anglais</span>
+              <span class="lang-tag">Dialectes locaux</span>
+            </div>
+            <div class="destination-features">
+              <div class="feature">
+                <i class="fas fa-sun"></i>
+                <span>Climat tropical</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-utensils"></i>
+                <span>Cuisine locale</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-music"></i>
+                <span>Culture riche</span>
+              </div>
+            </div>
+            <a href="calendrier.html?destination=cote-ivoire" class="destination-btn">Voir les disponibilités</a>
+          </div>
+        </div>
+
+        <!-- Tanzanie -->
+        <div class="destination-card">
+          <div class="destination-media">
+            <img src="https://images.unsplash.com/photo-1547471080-7cc2caa01a7e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Tanzanie" class="destination-image">
+            <div class="destination-flag">🇹🇿</div>
+          </div>
+          <div class="destination-content">
+            <h3 class="destination-name">Tanzanie</h3>
+            <p class="destination-description">Safari dans le Serengeti, ascension du Kilimandjaro et plages de Zanzibar. Aventure garantie avec guides experts.</p>
+            <div class="destination-languages">
+              <span class="lang-tag">🇬🇧 Anglais</span>
+              <span class="lang-tag">🇫🇷 Français</span>
+              <span class="lang-tag">Swahili</span>
+            </div>
+            <div class="destination-features">
+              <div class="feature">
+                <i class="fas fa-hiking"></i>
+                <span>Safari & Randonnée</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-mountain"></i>
+                <span>Kilimandjaro</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-umbrella-beach"></i>
+                <span>Plages paradisiaques</span>
+              </div>
+            </div>
+            <a href="calendrier.html?destination=tanzanie" class="destination-btn">Voir les disponibilités</a>
+          </div>
+        </div>
+
+        <!-- Ghana -->
+        <div class="destination-card">
+          <div class="destination-media">
+            <video class="destination-video" controls poster="https://images.unsplash.com/photo-1523806978687-8d31bc083fd2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+              <source src="https://assets.mixkit.co/videos/preview/mixkit-a-walking-tour-of-a-modern-ghanaian-city-44741-large.mp4" type="video/mp4">
+            </video>
+            <div class="video-indicator">
+              <i class="fas fa-play"></i> Vidéo de présentation
+            </div>
+            <div class="destination-flag">🇬🇭</div>
+          </div>
+          <div class="destination-content">
+            <h3 class="destination-name">Ghana</h3>
+            <p class="destination-description">Explorez les châteaux historiques, les marchés animés et la culture vibrante de ce pays d'Afrique de l'Ouest.</p>
+            <div class="destination-languages">
+              <span class="lang-tag">🇬🇧 Anglais</span>
+              <span class="lang-tag">🇫🇷 Français</span>
+              <span class="lang-tag">Langues locales</span>
+            </div>
+            <div class="destination-features">
+              <div class="feature">
+                <i class="fas fa-landmark"></i>
+                <span>Histoire riche</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-shopping-bag"></i>
+                <span>Marchés animés</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-drum"></i>
+                <span>Culture vivante</span>
+              </div>
+            </div>
+            <a href="calendrier.html?destination=ghana" class="destination-btn">Voir les disponibilités</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Europe -->
+  <section class="continent-section" id="europe">
+    <div class="container">
+      <h2 class="continent-title">🇪🇺 Destinations Européennes</h2>
+      <div class="destination-grid">
+        
+        <!-- Espagne -->
+        <div class="destination-card">
+          <div class="destination-media">
+            <img src="https://images.unsplash.com/photo-1543785734-4b6e564642f8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Espagne" class="destination-image">
+            <div class="destination-flag">🇪🇸</div>
+          </div>
+          <div class="destination-content">
+            <h3 class="destination-name">Espagne</h3>
+            <p class="destination-description">Découvrez Barcelone, Madrid et la Costa del Sol. Flamenco, tapas et architecture unique avec guides hispanophones.</p>
+            <div class="destination-languages">
+              <span class="lang-tag">🇪🇸 Espagnol</span>
+              <span class="lang-tag">🇫🇷 Français</span>
+              <span class="lang-tag">🇬🇧 Anglais</span>
+            </div>
+            <div class="destination-features">
+              <div class="feature">
+                <i class="fas fa-utensils"></i>
+                <span>Gastronomie</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-landmark"></i>
+                <span>Architecture</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-music"></i>
+                <span>Flamenco</span>
+              </div>
+            </div>
+            <a href="calendrier.html?destination=espagne" class="destination-btn">Voir les disponibilités</a>
+          </div>
+        </div>
+
+        <!-- Italie -->
+        <div class="destination-card">
+          <div class="destination-media">
+            <img src="https://images.unsplash.com/photo-1515542622106-78bda8ba0e5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Italie" class="destination-image">
+            <div class="destination-flag">🇮🇹</div>
+          </div>
+          <div class="destination-content">
+            <h3 class="destination-name">Italie</h3>
+            <p class="destination-description">Rome, Venise, Florence - Art, histoire et cuisine exceptionnelle. Visites avec guides italophones experts.</p>
+            <div class="destination-languages">
+              <span class="lang-tag">🇮🇹 Italien</span>
+              <span class="lang-tag">🇫🇷 Français</span>
+              <span class="lang-tag">🇬🇧 Anglais</span>
+            </div>
+            <div class="destination-features">
+              <div class="feature">
+                <i class="fas fa-pizza-slice"></i>
+                <span>Cuisine</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-palette"></i>
+                <span>Art & Histoire</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-archway"></i>
+                <span>Architecture</span>
+              </div>
+            </div>
+            <a href="calendrier.html?destination=italie" class="destination-btn">Voir les disponibilités</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Asie -->
+  <section class="continent-section" id="asie">
+    <div class="container">
+      <h2 class="continent-title">🌏 Destinations Asiatiques</h2>
+      <div class="destination-grid">
+        
+        <!-- Corée du Sud -->
+        <div class="destination-card">
+          <div class="destination-media">
+            <img src="https://images.unsplash.com/photo-1534274867514-d5b47ef89ed7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Corée du Sud" class="destination-image">
+            <div class="destination-flag">🇰🇷</div>
+          </div>
+          <div class="destination-content">
+            <h3 class="destination-name">Corée du Sud</h3>
+            <p class="destination-description">Séoul, Busan - Technologie moderne et traditions ancestrales. Expérience unique avec guides coréanophones.</p>
+            <div class="destination-languages">
+              <span class="lang-tag">🇰🇷 Coréen</span>
+              <span class="lang-tag">🇫🇷 Français</span>
+              <span class="lang-tag">🇬🇧 Anglais</span>
+            </div>
+            <div class="destination-features">
+              <div class="feature">
+                <i class="fas fa-robot"></i>
+                <span>Technologie</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-theater-masks"></i>
+                <span>Culture K-pop</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-utensils"></i>
+                <span>Gastronomie</span>
+              </div>
+            </div>
+            <a href="calendrier.html?destination=coree-sud" class="destination-btn">Voir les disponibilités</a>
+          </div>
+        </div>
+
+        <!-- Chine -->
+        <div class="destination-card">
+          <div class="destination-media">
+            <video class="destination-video" controls poster="https://images.unsplash.com/photo-1508804185872-d7badad00f7d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">
+              <source src="https://assets.mixkit.co/videos/preview/mixkit-great-wall-of-china-1232-large.mp4" type="video/mp4">
+            </video>
+            <div class="video-indicator">
+              <i class="fas fa-play"></i> Vidéo de présentation
+            </div>
+            <div class="destination-flag">🇨🇳</div>
+          </div>
+          <div class="destination-content">
+            <h3 class="destination-name">Chine</h3>
+            <p class="destination-description">Grande Muraille, Cité Interdite et métropoles futuristes. Découverte avec guides sinophones expérimentés.</p>
+            <div class="destination-languages">
+              <span class="lang-tag">🇨🇳 Chinois</span>
+              <span class="lang-tag">🇫🇷 Français</span>
+              <span class="lang-tag">🇬🇧 Anglais</span>
+            </div>
+            <div class="destination-features">
+              <div class="feature">
+                <i class="fas fa-monument"></i>
+                <span>Grande Muraille</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-city"></i>
+                <span>Métropoles</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-dragon"></i>
+                <span>Culture millénaire</span>
+              </div>
+            </div>
+            <a href="calendrier.html?destination=chine" class="destination-btn">Voir les disponibilités</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Section Amériques -->
+  <section class="continent-section" id="amerique">
+    <div class="container">
+      <h2 class="continent-title">🌎 Destinations Américaines</h2>
+      <div class="destination-grid">
+        
+        <!-- États-Unis -->
+        <div class="destination-card">
+          <div class="destination-media">
+            <img src="https://images.unsplash.com/photo-1501594907352-04cda38ebc29?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="États-Unis" class="destination-image">
+            <div class="destination-flag">🇺🇸</div>
+          </div>
+          <div class="destination-content">
+            <h3 class="destination-name">États-Unis</h3>
+            <p class="destination-description">New York, Los Angeles, parcs nationaux. Expérience américaine avec guides anglophones natifs.</p>
+            <div class="destination-languages">
+              <span class="lang-tag">🇬🇧 Anglais</span>
+              <span class="lang-tag">🇫🇷 Français</span>
+              <span class="lang-tag">🇪🇸 Espagnol</span>
+            </div>
+            <div class="destination-features">
+              <div class="feature">
+                <i class="fas fa-city"></i>
+                <span>Villes iconiques</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-tree"></i>
+                <span>Parcs nationaux</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-film"></i>
+                <span>Culture pop</span>
+              </div>
+            </div>
+            <a href="calendrier.html?destination=usa" class="destination-btn">Voir les disponibilités</a>
+          </div>
+        </div>
+
+        <!-- Brésil -->
+        <div class="destination-card">
+          <div class="destination-media">
+            <img src="https://images.unsplash.com/photo-1483729558449-99ef09a8c325?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Brésil" class="destination-image">
+            <div class="destination-flag">🇧🇷</div>
+          </div>
+          <div class="destination-content">
+            <h3 class="destination-name">Brésil</h3>
+            <p class="destination-description">Rio de Janeiro, Amazonie, plages de Copacabana. Carnaval et nature avec guides lusophones.</p>
+            <div class="destination-languages">
+              <span class="lang-tag">🇧🇷 Portugais</span>
+              <span class="lang-tag">🇫🇷 Français</span>
+              <span class="lang-tag">🇬🇧 Anglais</span>
+            </div>
+            <div class="destination-features">
+              <div class="feature">
+                <i class="fas fa-umbrella-beach"></i>
+                <span>Plages</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-tree"></i>
+                <span>Amazonie</span>
+              </div>
+              <div class="feature">
+                <i class="fas fa-music"></i>
+                <span>Carnaval</span>
+              </div>
+            </div>
+            <a href="calendrier.html?destination=bresil" class="destination-btn">Voir les disponibilités</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Navigation entre continents
+    document.addEventListener('DOMContentLoaded', function() {
+      const continentBtns = document.querySelectorAll('.continent-btn');
+      const continentSections = document.querySelectorAll('.continent-section');
+      
+      continentBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const targetContinent = this.getAttribute('data-continent');
+          
+          // Mettre à jour les boutons actifs
+          continentBtns.forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Afficher la section cible
+          continentSections.forEach(section => {
+            section.classList.remove('active');
+            if (section.id === targetContinent) {
+              section.classList.add('active');
+            }
+          });
+        });
+      });
+      
+      // Recherche
+      const searchInput = document.querySelector('.search-bar input');
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase();
+        const destinationCards = document.querySelectorAll('.destination-card');
+        
+        destinationCards.forEach(card => {
+          const destinationName = card.querySelector('.destination-name').textContent.toLowerCase();
+          const destinationDescription = card.querySelector('.destination-description').textContent.toLowerCase();
+          
+          if (destinationName.includes(searchTerm) || destinationDescription.includes(searchTerm)) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>

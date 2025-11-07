@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Informations Client - Diaspora Linguora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #667eea;
+      --primary-dark: #5a6fd8;
+      --secondary: #764ba2;
+      --success: #48bb78;
+      --warning: #ed8936;
+      --danger: #f56565;
+      --dark: #2d3748;
+      --light: #f7fafc;
+      --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 40px 0;
+      text-align: center;
+      border-radius: 20px 20px 0 0;
+      margin-bottom: 30px;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .form-card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin-bottom: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .order-summary {
+      background: var(--light);
+      padding: 25px;
+      border-radius: 15px;
+      margin-bottom: 30px;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .btn {
+      padding: 18px 30px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      text-align: center;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-primary {
+      background: var(--success);
+      color: white;
+      width: 100%;
+    }
+
+    .btn-primary:hover {
+      background: #38a169;
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--light);
+      color: var(--dark);
+      border: 2px solid #e2e8f0;
+    }
+
+    .empty-order {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-order i {
+      font-size: 4rem;
+      color: #cbd5e0;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header class="header">
+      <h1><i class="fas fa-user-circle"></i> Informations Client</h1>
+      <p>Complétez vos coordonnées pour finaliser la commande</p>
+    </header>
+
+    <div class="form-card">
+      <form id="clientForm">
+        <div class="form-group">
+          <label class="form-label" for="clientName">Nom complet *</label>
+          <input type="text" class="form-input" id="clientName" name="clientName" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="clientEmail">Adresse email *</label>
+          <input type="email" class="form-input" id="clientEmail" name="clientEmail" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="clientPhone">Téléphone *</label>
+          <input type="tel" class="form-input" id="clientPhone" name="clientPhone" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="clientNotes">Notes supplémentaires</label>
+          <textarea class="form-input" id="clientNotes" name="clientNotes" rows="4" placeholder="Informations supplémentaires, délais souhaités..."></textarea>
+        </div>
+
+        <div class="order-summary" id="orderSummary">
+          <!-- Résumé de la commande -->
+        </div>
+
+        <button type="submit" class="btn btn-primary">
+          <i class="fas fa-paper-plane"></i> Finaliser la commande
+        </button>
+      </form>
+    </div>
+
+    <a href="devis.html" class="btn btn-secondary" style="display: block; text-align: center;">
+      <i class="fas fa-arrow-left"></i> Retour au devis
+    </a>
+  </div>
+
+  <!-- Inclure le script Telegram -->
+  <script src="telegram-config.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const orderData = JSON.parse(localStorage.getItem('translationOrder'));
+      const orderSummary = document.getElementById('orderSummary');
+      const clientForm = document.getElementById('clientForm');
+
+      if (!orderData || !orderData.cart || orderData.cart.length === 0) {
+        orderSummary.innerHTML = `
+          <div class="empty-order">
+            <i class="fas fa-exclamation-circle"></i>
+            <h2>Aucune commande trouvée</h2>
+            <p>Vous n'avez pas encore sélectionné de documents.</p>
+          </div>
+        `;
+        clientForm.style.display = 'none';
+        return;
+      }
+
+      // Afficher le résumé de la commande
+      let summaryHTML = '<h3 style="margin-bottom: 20px;"><i class="fas fa-file-alt"></i> Récapitulatif de la commande</h3>';
+      
+      orderData.cart.forEach(item => {
+        const itemTotal = item.priceRub * item.quantity;
+        summaryHTML += `
+          <div class="summary-item">
+            <div>${item.name} × ${item.quantity}</div>
+            <div>${itemTotal.toLocaleString('fr-FR')} RUB</div>
+          </div>
+        `;
+      });
+
+      summaryHTML += `
+        <div class="summary-total">
+          <div>Total</div>
+          <div>${orderData.total.toLocaleString('fr-FR')} RUB</div>
+        </div>
+        <div style="margin-top: 15px; font-size: 0.9rem; color: #718096;">
+          <i class="fas fa-language"></i> Traduction: ${orderData.languageName}
+        </div>
+      `;
+
+      orderSummary.innerHTML = summaryHTML;
+
+      // Gestion de la soumission du formulaire
+      clientForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+
+        const submitBtn = clientForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Envoi en cours...';
+        submitBtn.disabled = true;
+
+        try {
+          // Mettre à jour les données client
+          orderData.clientName = document.getElementById('clientName').value;
+          orderData.clientEmail = document.getElementById('clientEmail').value;
+          orderData.clientPhone = document.getElementById('clientPhone').value;
+          orderData.clientNotes = document.getElementById('clientNotes').value;
+          orderData.submissionDate = new Date().toISOString();
+
+          // Sauvegarder
+          localStorage.setItem('translationOrder', JSON.stringify(orderData));
+          updateOrderInDatabase(orderData);
+
+          // Essayer d'envoyer l'alerte Telegram
+          let telegramSent = false;
+          if (telegramNotifier && telegramNotifier.isReady()) {
+            telegramSent = await telegramNotifier.sendOrderAlert(orderData);
+          }
+
+          if (!telegramSent) {
+            console.warn('Alerte Telegram non envoyée - bot non configuré');
+          }
+
+          // Redirection
+          setTimeout(() => {
+            window.location.href = 'confirmation.html';
+          }, 1500);
+
+        } catch (error) {
+          console.error('Erreur:', error);
+          submitBtn.innerHTML = originalText;
+          submitBtn.disabled = false;
+          alert('Erreur lors de l\'envoi. Veuillez réessayer.');
+        }
+      });
+    });
+
+    function updateOrderInDatabase(updatedOrder) {
+      let allOrders = JSON.parse(localStorage.getItem('allTranslationOrders')) || [];
+      
+      // Vérifier si la commande existe déjà
+      const orderIndex = allOrders.findIndex(order => order.orderNumber === updatedOrder.orderNumber);
+      
+      if (orderIndex !== -1) {
+        // Mettre à jour la commande existante
+        allOrders[orderIndex] = updatedOrder;
+      } else {
+        // Ajouter une nouvelle commande
+        allOrders.push(updatedOrder);
+      }
+      
+      localStorage.setItem('allTranslationOrders', JSON.stringify(allOrders));
+      
+      // Mettre à jour la notification admin
+      updateAdminNotification();
+    }
+
+    function updateAdminNotification() {
+      let pendingOrders = JSON.parse(localStorage.getItem('allTranslationOrders')) || [];
+      pendingOrders = pendingOrders.filter(order => order.status === 'en_attente');
+      
+      localStorage.setItem('pendingOrdersCount', pendingOrders.length);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="shortcut icon" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="apple-touch-icon" href="/frontend/static/DiasLogo.jpeg">
+  <title>Connexion Admin - Diaspora Linguora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #667eea;
+      --primary-dark: #5a6fd8;
+      --secondary: #764ba2;
+      --accent: #f093fb;
+      --success: #48bb78;
+      --danger: #f56565;
+      --dark: #2d3748;
+      --light: #f7fafc;
+      --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-container {
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .login-card {
+      background: white;
+      border-radius: 25px;
+      padding: 50px 40px;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+    }
+
+    .logo-section {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .logo {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 20px;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2rem;
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    .logo-section h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 8px;
+    }
+
+    .logo-section p {
+      color: #718096;
+      font-size: 1.1rem;
+    }
+
+    .form-group {
+      margin-bottom: 25px;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 0.95rem;
+    }
+
+    .input-with-icon {
+      position: relative;
+    }
+
+    .input-with-icon i {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #a0aec0;
+      transition: var(--transition);
+    }
+
+    .input-with-icon input {
+      width: 100%;
+      padding: 15px 15px 15px 45px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      transition: var(--transition);
+      background: white;
+    }
+
+    .input-with-icon input:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .input-with-icon input:focus + i {
+      color: var(--primary);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: #a0aec0;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .password-toggle:hover {
+      color: var(--primary);
+    }
+
+    .remember-forgot {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .remember-me {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .remember-me input {
+      width: 16px;
+      height: 16px;
+    }
+
+    .remember-me label {
+      font-size: 0.9rem;
+      color: #718096;
+      margin: 0;
+    }
+
+    .forgot-password {
+      color: var(--primary);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .forgot-password:hover {
+      color: var(--primary-dark);
+    }
+
+    .login-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-bottom: 25px;
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .login-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .login-btn:active {
+      transform: translateY(0);
+    }
+
+    .divider {
+      text-align: center;
+      margin: 30px 0;
+      position: relative;
+    }
+
+    .divider::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: #e2e8f0;
+    }
+
+    .divider span {
+      background: white;
+      padding: 0 15px;
+      color: #718096;
+      font-size: 0.9rem;
+    }
+
+    .back-home {
+      text-align: center;
+      margin-top: 25px;
+    }
+
+    .back-home a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .back-home a:hover {
+      color: var(--primary-dark);
+      transform: translateX(-3px);
+    }
+
+    /* Alertes */
+    .alert {
+      padding: 15px 20px;
+      border-radius: 10px;
+      margin-bottom: 25px;
+      font-weight: 500;
+      display: none;
+    }
+
+    .alert-error {
+      background: #fed7d7;
+      color: #742a2a;
+      border: 1px solid #feb2b2;
+    }
+
+    .alert-success {
+      background: #c6f6d5;
+      color: #22543d;
+      border: 1px solid #9ae6b4;
+    }
+
+    /* Animation de chargement */
+    .loading {
+      display: none;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid #e2e8f0;
+      border-left: 4px solid var(--primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Mode sécurisé */
+    .secure-mode {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      color: #718096;
+      font-size: 0.9rem;
+    }
+
+    .secure-mode i {
+      color: var(--success);
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 40px 25px;
+      }
+      
+      .logo-section h1 {
+        font-size: 1.8rem;
+      }
+      
+      .remember-forgot {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+      }
+    }
+
+    /* Effet de focus amélioré */
+    .input-with-icon input:focus {
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <!-- Logo et titre -->
+      <div class="logo-section">
+        <div class="logo">
+          <i class="fas fa-lock"></i>
+        </div>
+        <h1>Espace Admin</h1>
+        <p>Diaspora Linguora - Accès sécurisé</p>
+      </div>
+
+      <!-- Alertes -->
+      <div class="alert alert-error" id="errorAlert">
+        <i class="fas fa-exclamation-circle"></i> Identifiants incorrects
+      </div>
+
+      <div class="alert alert-success" id="successAlert">
+        <i class="fas fa-check-circle"></i> Connexion réussie
+      </div>
+
+      <!-- Formulaire de connexion -->
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Adresse Email</label>
+          <div class="input-with-icon">
+            <input type="email" id="email" placeholder="admin@diasporalinguora.com" required>
+            <i class="fas fa-envelope"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Mot de passe</label>
+          <div class="input-with-icon">
+            <input type="password" id="password" placeholder="Votre mot de passe" required>
+            <i class="fas fa-lock"></i>
+            <button type="button" class="password-toggle" id="togglePassword">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="remember-forgot">
+          <div class="remember-me">
+            <input type="checkbox" id="remember">
+            <label for="remember">Se souvenir de moi</label>
+          </div>
+          <a href="#" class="forgot-password">Mot de passe oublié ?</a>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p style="margin-top: 10px; color: #718096;">Connexion en cours...</p>
+        </div>
+
+        <button type="submit" class="login-btn">
+          <i class="fas fa-sign-in-alt"></i> Se Connecter
+        </button>
+      </form>
+
+      <div class="divider">
+        <span>Accès sécurisé</span>
+      </div>
+
+      <div class="secure-mode">
+        <i class="fas fa-shield-alt"></i>
+        <span>Connexion chiffrée SSL</span>
+      </div>
+
+      <div class="back-home">
+        <a href="home.html">
+          <i class="fas fa-arrow-left"></i> Retour au site principal
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const loginForm = document.getElementById('loginForm');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const togglePassword = document.getElementById('togglePassword');
+      const errorAlert = document.getElementById('errorAlert');
+      const successAlert = document.getElementById('successAlert');
+      const loading = document.getElementById('loading');
+
+      // Basculer la visibilité du mot de passe
+      togglePassword.addEventListener('click', function() {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.innerHTML = type === 'password' ? '<i class="fas fa-eye"></i>' : '<i class="fas fa-eye-slash"></i>';
+      });
+
+      // Simulation de connexion (à remplacer par une vraie API)
+      loginForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const email = emailInput.value;
+        const password = passwordInput.value;
+
+        // Masquer les alertes précédentes
+        errorAlert.style.display = 'none';
+        successAlert.style.display = 'none';
+        
+        // Afficher le loading
+        loading.style.display = 'block';
+        loginForm.querySelector('.login-btn').disabled = true;
+
+        // Simulation d'une requête API
+        setTimeout(() => {
+          loading.style.display = 'none';
+          loginForm.querySelector('.login-btn').disabled = false;
+
+          // Identifiants de test (à remplacer par une vraie authentification)
+          if (email === 'pythamoua@gmail.com' && password === 'admin2024') {
+            successAlert.style.display = 'block';
+            errorAlert.style.display = 'none';
+            
+            // Redirection vers le dashboard admin après 1.5 secondes
+            setTimeout(() => {
+              window.location.href = 'admin.html';
+            }, 1500);
+          } else {
+            errorAlert.style.display = 'block';
+            successAlert.style.display = 'none';
+            
+            // Effet de secousse sur le formulaire
+            loginForm.style.transform = 'translateX(10px)';
+            setTimeout(() => {
+              loginForm.style.transform = 'translateX(-10px)';
+              setTimeout(() => {
+                loginForm.style.transform = 'translateX(0)';
+              }, 100);
+            }, 100);
+          }
+        }, 2000);
+      });
+
+      // Vérifier s'il y a des identifiants sauvegardés
+      const savedEmail = localStorage.getItem('adminEmail');
+      const savedPassword = localStorage.getItem('adminPassword');
+      const rememberMe = localStorage.getItem('rememberMe');
+
+      if (rememberMe === 'true' && savedEmail && savedPassword) {
+        emailInput.value = savedEmail;
+        passwordInput.value = savedPassword;
+        document.getElementById('remember').checked = true;
+      }
+
+      // Sauvegarder les identifiants si "Se souvenir" est coché
+      document.getElementById('remember').addEventListener('change', function() {
+        if (this.checked) {
+          localStorage.setItem('rememberMe', 'true');
+        } else {
+          localStorage.removeItem('rememberMe');
+          localStorage.removeItem('adminEmail');
+          localStorage.removeItem('adminPassword');
+        }
+      });
+
+      // Animation d'entrée
+      const loginCard = document.querySelector('.login-card');
+      loginCard.style.opacity = '0';
+      loginCard.style.transform = 'translateY(30px)';
+      
+      setTimeout(() => {
+        loginCard.style.transition = 'all 0.6s ease';
+        loginCard.style.opacity = '1';
+        loginCard.style.transform = 'translateY(0)';
+      }, 100);
+    });
+
+    // Simulation de récupération de mot de passe
+    document.querySelector('.forgot-password').addEventListener('click', function(e) {
+      e.preventDefault();
+      const email = prompt('Entrez votre email pour réinitialiser le mot de passe:');
+      if (email) {
+        alert(`Un lien de réinitialisation a été envoyé à ${email}`);
+      }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="shortcut icon" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="apple-touch-icon" href="/frontend/static/DiasLogo.jpeg">
+  <title>Services de Traduction - Diaspora Linguora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #667eea;
+      --primary-dark: #5a6fd8;
+      --secondary: #764ba2;
+      --accent: #f093fb;
+      --success: #4fd1c7;
+      --dark: #2d3748;
+      --light: #f7fafc;
+      --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 100px 0 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff" opacity="0.1"><polygon points="1000,100 1000,0 0,100"></polygon></svg>');
+      background-size: cover;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .header h1 {
+      font-size: 3.5rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .header p {
+      font-size: 1.3rem;
+      opacity: 0.9;
+      margin-bottom: 2rem;
+    }
+
+    /* Sélecteur de langue */
+    .language-selector {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin: 30px 0;
+      flex-wrap: wrap;
+    }
+
+    .lang-btn {
+      background: rgba(255, 255, 255, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      color: white;
+      padding: 12px 25px;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+      backdrop-filter: blur(10px);
+    }
+
+    .lang-btn:hover, .lang-btn.active {
+      background: white;
+      color: var(--primary);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    /* Grille des langues */
+    .language-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      padding: 50px 0;
+    }
+
+    .language-card {
+      background: white;
+      border-radius: 20px;
+      padding: 40px 30px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      transition: var(--transition);
+      border: 2px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .language-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(to right, var(--primary), var(--accent));
+    }
+
+    .language-card:hover {
+      transform: translateY(-10px);
+      border-color: var(--primary);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .flag-container {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 25px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transition: var(--transition);
+    }
+
+    .language-card:hover .flag-container {
+      transform: scale(1.1) rotate(5deg);
+    }
+
+    .language-card h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+
+    .language-card p {
+      color: #718096;
+      margin-bottom: 25px;
+      line-height: 1.7;
+    }
+
+    .language-combinations {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-bottom: 25px;
+    }
+
+    .flag-combo {
+      background: var(--light);
+      padding: 8px 15px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      transition: var(--transition);
+    }
+
+    .language-card:hover .flag-combo {
+      background: var(--primary);
+      color: white;
+    }
+
+    .price-tag {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 12px 25px;
+      border-radius: 25px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      display: inline-block;
+      margin-top: 15px;
+    }
+
+    /* Processus de traduction */
+    .process-section {
+      background: white;
+      border-radius: 25px;
+      padding: 60px 40px;
+      margin: 50px 0;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    }
+
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .section-title h2 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--dark);
+      margin-bottom: 15px;
+    }
+
+    .section-title p {
+      font-size: 1.2rem;
+      color: #718096;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .translation-process {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+    }
+
+    .process-step {
+      text-align: center;
+      padding: 40px 25px;
+      background: var(--light);
+      border-radius: 20px;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .process-step:hover {
+      transform: translateY(-5px);
+      background: white;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+    }
+
+    .process-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 50%;
+      margin: 0 auto 25px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.8rem;
+      font-weight: 700;
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+    }
+
+    .process-step h3 {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+
+    .process-step p {
+      color: #718096;
+      line-height: 1.6;
+    }
+
+    /* Types de documents */
+    .documents-section {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 80px 0;
+      border-radius: 25px;
+      margin: 50px 0;
+      text-align: center;
+    }
+
+    .documents-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+
+    .document-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 30px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transition: var(--transition);
+    }
+
+    .document-card:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-5px);
+    }
+
+    .document-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      opacity: 0.9;
+    }
+
+    .document-card h4 {
+      font-size: 1.3rem;
+      margin-bottom: 15px;
+      font-weight: 600;
+    }
+
+    /* CTA Section */
+    .cta-section {
+      text-align: center;
+      padding: 80px 0;
+    }
+
+    .cta-button {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 20px 40px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 15px;
+      transition: var(--transition);
+      box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    }
+
+    .cta-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 2.5rem;
+      }
+      
+      .language-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .translation-process {
+        grid-template-columns: 1fr;
+      }
+      
+      .documents-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="container">
+      <div class="header-content">
+        <h1 id="headerTitle">🈲 Nos Services de Traduction</h1>
+        <p id="headerSubtitle">Traduction professionnelle certifiée dans toutes les combinaisons linguistiques</p>
+        
+        <!-- Sélecteur de langue -->
+        <div class="language-selector">
+          <button class="lang-btn active" data-lang="fr">🇫🇷 Français</button>
+          <button class="lang-btn" data-lang="en">🇬🇧 English</button>
+          <button class="lang-btn" data-lang="ru">🇷🇺 Русский</button>
+          <button class="lang-btn" data-lang="zh">🇨🇳 中文</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Grille des langues -->
+    <section>
+      <div class="language-grid">
+        <!-- Français -->
+        <div class="language-card">
+          <div class="flag-container" style="background: linear-gradient(135deg, #002395, #ED2939);">
+            🇫🇷
+          </div>
+          <h3 id="frenchTitle">Français</h3>
+          <p id="frenchDesc">Traduction native vers/depuis le français pour tous vos documents officiels, techniques et littéraires.</p>
+          <div class="language-combinations">
+            <span class="flag-combo">🇫🇷 ⇄ 🇬🇧</span>
+            <span class="flag-combo">🇫🇷 ⇄ 🇷🇺</span>
+            <span class="flag-combo">🇫🇷 ⇄ 🇨🇳</span>
+          </div>
+          <div class="price-tag" id="frenchPrice">À partir de 0.08€/mot</div>
+        </div>
+
+        <!-- Anglais -->
+        <div class="language-card">
+          <div class="flag-container" style="background: linear-gradient(135deg, #012169, #C8102E);">
+            🇬🇧
+          </div>
+          <h3 id="englishTitle">Anglais</h3>
+          <p id="englishDesc">Traduction certifiée anglais-français par des traducteurs natifs spécialisés dans divers domaines.</p>
+          <div class="language-combinations">
+            <span class="flag-combo">🇬🇧 ⇄ 🇫🇷</span>
+            <span class="flag-combo">🇬🇧 ⇄ 🇨🇳</span>
+            <span class="flag-combo">🇬🇧 ⇄ 🇷🇺</span>
+          </div>
+          <div class="price-tag" id="englishPrice">From 0.07€/word</div>
+        </div>
+
+        <!-- Chinois -->
+        <div class="language-card">
+          <div class="flag-container" style="background: linear-gradient(135deg, #DE2910, #FFDE00);">
+            🇨🇳
+          </div>
+          <h3 id="chineseTitle">Chinois</h3>
+          <p id="chineseDesc">Traduction spécialisée mandarin-cantonais avec experts sinophones pour vos projets commerciaux.</p>
+          <div class="language-combinations">
+            <span class="flag-combo">🇨🇳 ⇄ 🇫🇷</span>
+            <span class="flag-combo">🇨🇳 ⇄ 🇬🇧</span>
+            <span class="flag-combo">🇨🇳 ⇄ 🇷🇺</span>
+          </div>
+          <div class="price-tag" id="chinesePrice">起价 0.10€/字</div>
+        </div>
+
+        <!-- Russe -->
+        <div class="language-card">
+          <div class="flag-container" style="background: linear-gradient(135deg, #0039A6, #D52B1E);">
+            🇷🇺
+          </div>
+          <h3 id="russianTitle">Russe</h3>
+          <p id="russianDesc">Traduction technique et littéraire russe-français par linguistes experts certifiés.</p>
+          <div class="language-combinations">
+            <span class="flag-combo">🇷🇺 ⇄ 🇫🇷</span>
+            <span class="flag-combo">🇷🇺 ⇄ 🇬🇧</span>
+            <span class="flag-combo">🇷🇺 ⇄ 🇨🇳</span>
+          </div>
+          <div class="price-tag" id="russianPrice">От 0.09€/слово</div>
+        </div>
+
+        <!-- Espagnol -->
+        <div class="language-card">
+          <div class="flag-container" style="background: linear-gradient(135deg, #AA151B, #F1BF00);">
+            🇪🇸
+          </div>
+          <h3 id="spanishTitle">Espagnol</h3>
+          <p id="spanishDesc">Traduction vers l'espagnol d'Amérique latine et d'Espagne par des locuteurs natifs.</p>
+          <div class="language-combinations">
+            <span class="flag-combo">🇪🇸 ⇄ 🇫🇷</span>
+            <span class="flag-combo">🇪🇸 ⇄ 🇬🇧</span>
+          </div>
+          <div class="price-tag" id="spanishPrice">Desde 0.07€/palabra</div>
+        </div>
+
+        <!-- Arabe -->
+        <div class="language-card">
+          <div class="flag-container" style="background: linear-gradient(135deg, #CE1126, #000000, #007A3D);">
+            🇦🇪
+          </div>
+          <h3 id="arabicTitle">Arabe</h3>
+          <p id="arabicDesc">Traduction arabe standard et dialectal pour le monde arabe avec experts certifiés.</p>
+          <div class="language-combinations">
+            <span class="flag-combo">🇦🇪 ⇄ 🇫🇷</span>
+            <span class="flag-combo">🇦🇪 ⇄ 🇬🇧</span>
+          </div>
+          <div class="price-tag" id="arabicPrice">بدءًا من 0.08€/كلمة</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Processus de traduction -->
+    <section class="process-section">
+      <div class="section-title">
+        <h2 id="processTitle">📋 Notre Processus de Traduction</h2>
+        <p id="processSubtitle">Comment nous garantissons l'excellence dans chaque traduction</p>
+      </div>
+
+      <div class="translation-process">
+        <div class="process-step">
+          <div class="process-icon">1</div>
+          <h3 id="step1Title">Analyse du Document</h3>
+          <p id="step1Desc">Évaluation de la complexité, domaine spécialisé et estimation du délai de réalisation</p>
+        </div>
+        <div class="process-step">
+          <div class="process-icon">2</div>
+          <h3 id="step2Title">Traduction Native</h3>
+          <p id="step2Desc">Rédaction par un traducteur expert natif spécialisé dans votre domaine</p>
+        </div>
+        <div class="process-step">
+          <div class="process-icon">3</div>
+          <h3 id="step3Title">Relecture Qualité</h3>
+          <p id="step3Desc">Vérification rigoureuse par un second linguiste pour garantir la perfection</p>
+        </div>
+        <div class="process-step">
+          <div class="process-icon">4</div>
+          <h3 id="step4Title">Livraison Certifiée</h3>
+          <p id="step4Desc">Remise du document final avec certification officielle si nécessaire</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Types de documents -->
+    <section class="documents-section">
+      <div class="section-title">
+        <h2 id="documentsTitle">📄 Types de Documents</h2>
+        <p id="documentsSubtitle">Nous traduisons tous types de documents avec la plus grande précision</p>
+      </div>
+
+      <div class="documents-grid">
+        <div class="document-card">
+          <div class="document-icon">📋</div>
+          <h4 id="doc1Title">Documents Légaux</h4>
+          <p id="doc1Desc">Contrats, actes notariés, documents judiciaires</p>
+        </div>
+        <div class="document-card">
+          <div class="document-icon">💼</div>
+          <h4 id="doc2Title">Documents Commerciaux</h4>
+          <p id="doc2Desc">Rapports, présentations, sites web, marketing</p>
+        </div>
+        <div class="document-card">
+          <div class="document-icon">🎓</div>
+          <h4 id="doc3Title">Documents Académiques</h4>
+          <p id="doc3Desc">Thèses, articles scientifiques, diplômes</p>
+        </div>
+        <div class="document-card">
+          <div class="document-icon">🏥</div>
+          <h4 id="doc4Title">Documents Médicaux</h4>
+          <p id="doc4Desc">Rapports médicaux, notices, essais cliniques</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <a href="devis.html" class="cta-button">
+        <i class="fas fa-paper-plane"></i>
+        <span id="ctaText">Demander un Devis Gratuit</span>
+      </a>
+    </section>
+  </div>
+
+  <script>
+    // Traductions
+    const translations = {
+      fr: {
+        headerTitle: "🈲 Nos Services de Traduction",
+        headerSubtitle: "Traduction professionnelle certifiée dans toutes les combinaisons linguistiques",
+        frenchTitle: "Français",
+        frenchDesc: "Traduction native vers/depuis le français pour tous vos documents officiels, techniques et littéraires.",
+        frenchPrice: "À partir de 0.08€/mot",
+        englishTitle: "Anglais",
+        englishDesc: "Traduction certifiée anglais-français par des traducteurs natifs spécialisés dans divers domaines.",
+        englishPrice: "À partir de 0.07€/mot",
+        chineseTitle: "Chinois",
+        chineseDesc: "Traduction spécialisée mandarin-cantonais avec experts sinophones pour vos projets commerciaux.",
+        chinesePrice: "À partir de 0.10€/caractère",
+        russianTitle: "Russe",
+        russianDesc: "Traduction technique et littéraire russe-français par linguistes experts certifiés.",
+        russianPrice: "À partir de 0.09€/mot",
+        spanishTitle: "Espagnol",
+        spanishDesc: "Traduction vers l'espagnol d'Amérique latine et d'Espagne par des locuteurs natifs.",
+        spanishPrice: "À partir de 0.07€/mot",
+        arabicTitle: "Arabe",
+        arabicDesc: "Traduction arabe standard et dialectal pour le monde arabe avec experts certifiés.",
+        arabicPrice: "À partir de 0.08€/mot",
+        processTitle: "📋 Notre Processus de Traduction",
+        processSubtitle: "Comment nous garantissons l'excellence dans chaque traduction",
+        step1Title: "Analyse du Document",
+        step1Desc: "Évaluation de la complexité, domaine spécialisé et estimation du délai de réalisation",
+        step2Title: "Traduction Native",
+        step2Desc: "Rédaction par un traducteur expert natif spécialisé dans votre domaine",
+        step3Title: "Relecture Qualité",
+        step3Desc: "Vérification rigoureuse par un second linguiste pour garantir la perfection",
+        step4Title: "Livraison Certifiée",
+        step4Desc: "Remise du document final avec certification officielle si nécessaire",
+        documentsTitle: "📄 Types de Documents",
+        documentsSubtitle: "Nous traduisons tous types de documents avec la plus grande précision",
+        doc1Title: "Documents Légaux",
+        doc1Desc: "Contrats, actes notariés, documents judiciaires",
+        doc2Title: "Documents Commerciaux",
+        doc2Desc: "Rapports, présentations, sites web, marketing",
+        doc3Title: "Documents Académiques",
+        doc3Desc: "Thèses, articles scientifiques, diplômes",
+        doc4Title: "Documents Médicaux",
+        doc4Desc: "Rapports médicaux, notices, essais cliniques",
+        ctaText: "Demander un Devis Gratuit"
+      },
+      en: {
+        headerTitle: "🈲 Our Translation Services",
+        headerSubtitle: "Professional certified translation in all language combinations",
+        frenchTitle: "French",
+        frenchDesc: "Native translation to/from French for all your official, technical and literary documents.",
+        frenchPrice: "From 0.08€/word",
+        englishTitle: "English",
+        englishDesc: "Certified English-French translation by native translators specialized in various fields.",
+        englishPrice: "From 0.07€/word",
+        chineseTitle: "Chinese",
+        chineseDesc: "Specialized Mandarin-Cantonese translation with sinophone experts for your business projects.",
+        chinesePrice: "From 0.10€/character",
+        russianTitle: "Russian",
+        russianDesc: "Technical and literary Russian-French translation by certified expert linguists.",
+        russianPrice: "From 0.09€/word",
+        spanishTitle: "Spanish",
+        spanishDesc: "Translation to Latin American and European Spanish by native speakers.",
+        spanishPrice: "From 0.07€/word",
+        arabicTitle: "Arabic",
+        arabicDesc: "Standard and dialectal Arabic translation for the Arab world with certified experts.",
+        arabicPrice: "From 0.08€/word",
+        processTitle: "📋 Our Translation Process",
+        processSubtitle: "How we guarantee excellence in every translation",
+        step1Title: "Document Analysis",
+        step1Desc: "Evaluation of complexity, specialized field and delivery time estimation",
+        step2Title: "Native Translation",
+        step2Desc: "Translation by a native expert translator specialized in your field",
+        step3Title: "Quality Proofreading",
+        step3Desc: "Rigorous verification by a second linguist to ensure perfection",
+        step4Title: "Certified Delivery",
+        step4Desc: "Delivery of final document with official certification if needed",
+        documentsTitle: "📄 Document Types",
+        documentsSubtitle: "We translate all types of documents with the highest accuracy",
+        doc1Title: "Legal Documents",
+        doc1Desc: "Contracts, notarized acts, judicial documents",
+        doc2Title: "Commercial Documents",
+        doc2Desc: "Reports, presentations, websites, marketing",
+        doc3Title: "Academic Documents",
+        doc3Desc: "Theses, scientific articles, diplomas",
+        doc4Title: "Medical Documents",
+        doc4Desc: "Medical reports, notices, clinical trials",
+        ctaText: "Request a Free Quote"
+      },
+      ru: {
+        headerTitle: "🈲 Наши Услуги Перевода",
+        headerSubtitle: "Профессиональный сертифицированный перевод на все языковые комбинации",
+        frenchTitle: "Французский",
+        frenchDesc: "Нативный перевод на/с французского для всех ваших официальных, технических и литературных документов.",
+        frenchPrice: "От 0.08€/слово",
+        englishTitle: "Английский",
+        englishDesc: "Сертифицированный перевод английский-французский от носителей языка, специализирующихся в различных областях.",
+        englishPrice: "От 0.07€/слово",
+        chineseTitle: "Китайский",
+        chineseDesc: "Специализированный перевод мандарин-кантонский с экспертами-синологами для ваших бизнес-проектов.",
+        chinesePrice: "От 0.10€/иероглиф",
+        russianTitle: "Русский",
+        russianDesc: "Технический и литературный перевод русский-французский от сертифицированных экспертов-лингвистов.",
+        russianPrice: "От 0.09€/слово",
+        spanishTitle: "Испанский",
+        spanishDesc: "Перевод на латиноамериканский и европейский испанский от носителей языка.",
+        spanishPrice: "От 0.07€/слово",
+        arabicTitle: "Арабский",
+        arabicDesc: "Стандартный и диалектный арабский перевод для арабского мира с сертифицированными экспертами.",
+        arabicPrice: "От 0.08€/слово",
+        processTitle: "📋 Наш Процесс Перевода",
+        processSubtitle: "Как мы гарантируем превосходство в каждом переводе",
+        step1Title: "Анализ Документа",
+        step1Desc: "Оценка сложности, специализированной области и расчет сроков выполнения",
+        step2Title: "Нативный Перевод",
+        step2Desc: "Перевод носителем языка, экспертом в вашей области",
+        step3Title: "Контроль Качества",
+        step3Desc: "Тщательная проверка вторым лингвистом для гарантии совершенства",
+        step4Title: "Сертифицированная Доставка",
+        step4Desc: "Доставка финального документа с официальной сертификацией при необходимости",
+        documentsTitle: "📄 Типы Документов",
+        documentsSubtitle: "Мы переводим все типы документов с высочайшей точностью",
+        doc1Title: "Юридические Документы",
+        doc1Desc: "Контракты, нотариальные акты, судебные документы",
+        doc2Title: "Коммерческие Документы",
+        doc2Desc: "Отчеты, презентации, веб-сайты, маркетинг",
+        doc3Title: "Академические Документы",
+        doc3Desc: "Диссертации, научные статьи, дипломы",
+        doc4Title: "Медицинские Документы",
+        doc4Desc: "Медицинские отчеты, инструкции, клинические испытания",
+        ctaText: "Запросить Бесплатное Предложение"
+      },
+      zh: {
+        headerTitle: "🈲 我们的翻译服务",
+        headerSubtitle: "所有语言组合的专业认证翻译",
+        frenchTitle: "法语",
+        frenchDesc: "为您的所有官方、技术和文学文件提供原生法语翻译服务。",
+        frenchPrice: "起价 0.08€/词",
+        englishTitle: "英语",
+        englishDesc: "由母语为英语的专业翻译人员提供认证的英法翻译服务。",
+        englishPrice: "起价 0.07€/词",
+        chineseTitle: "中文",
+        chineseDesc: "为您的商业项目提供专业的普通话-粤语翻译，由汉学家专家完成。",
+        chinesePrice: "起价 0.10€/字",
+        russianTitle: "俄语",
+        russianDesc: "由认证的语言学专家提供技术和文学俄法翻译服务。",
+        russianPrice: "起价 0.09€/词",
+        spanishTitle: "西班牙语",
+        spanishDesc: "由母语人士提供拉丁美洲和欧洲西班牙语翻译服务。",
+        spanishPrice: "起价 0.07€/词",
+        arabicTitle: "阿拉伯语",
+        arabicDesc: "为阿拉伯世界提供标准阿拉伯语和方言翻译，由认证专家完成。",
+        arabicPrice: "起价 0.08€/词",
+        processTitle: "📋 我们的翻译流程",
+        processSubtitle: "我们如何保证每次翻译的卓越品质",
+        step1Title: "文件分析",
+        step1Desc: "评估复杂性、专业领域并估算交付时间",
+        step2Title: "母语翻译",
+        step2Desc: "由您所在领域的母语专家翻译人员完成翻译",
+        step3Title: "质量校对",
+        step3Desc: "由第二位语言学家严格验证以确保完美",
+        step4Title: "认证交付",
+        step4Desc: "交付最终文件，必要时提供官方认证",
+        documentsTitle: "📄 文件类型",
+        documentsSubtitle: "我们以最高精度翻译所有类型的文件",
+        doc1Title: "法律文件",
+        doc1Desc: "合同、公证文件、司法文件",
+        doc2Title: "商业文件",
+        doc2Desc: "报告、演示文稿、网站、市场营销",
+        doc3Title: "学术文件",
+        doc3Desc: "论文、科学文章、文凭",
+        doc4Title: "医疗文件",
+        doc4Desc: "医疗报告、说明书、临床试验",
+        ctaText: "请求免费报价"
+      }
+    };
+
+    // Fonction de traduction
+    function setLanguage(lang) {
+      const t = translations[lang];
+      
+      // Mettre à jour tous les éléments avec des IDs
+      Object.keys(t).forEach(key => {
+        const element = document.getElementById(key);
+        if (element) {
+          element.textContent = t[key];
+        }
+      });
+
+      // Mettre à jour les boutons de langue
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('active');
+        if (btn.getAttribute('data-lang') === lang) {
+          btn.classList.add('active');
+        }
+      });
+
+      // Changer la direction pour l'arabe si nécessaire
+      document.body.dir = lang === 'ar' ? 'rtl' : 'ltr';
+    }
+
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', function() {
+      // Événements pour les boutons de langue
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const lang = this.getAttribute('data-lang');
+          setLanguage(lang);
+        });
+      });
+
+      // Langue par défaut
+      setLanguage('fr');
+    });
+  </script>
+</body>
+</html>

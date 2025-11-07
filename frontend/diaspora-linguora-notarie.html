@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="shortcut icon" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="apple-touch-icon" href="/frontend/static/DiasLogo.jpeg">
+  <title>Services Notariés - Diaspora Linguora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .notary-services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      padding: 2rem 0;
+    }
+
+    .notary-card {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      border-left: 5px solid var(--primary);
+      transition: all 0.3s ease;
+    }
+
+    .notary-card:hover {
+      transform: translateX(10px);
+      box-shadow: 0 15px 40px rgba(37, 99, 235, 0.2);
+    }
+
+    .document-types {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    .document-tag {
+      background: #e0f2fe;
+      color: var(--primary);
+      padding: 0.5rem 1rem;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      border: 1px solid var(--primary);
+    }
+
+    .country-requirements {
+      background: #f0f9ff;
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 3rem 0;
+    }
+
+    .requirement-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 1rem 0;
+      padding: 1rem;
+      background: white;
+      border-radius: 10px;
+    }
+
+    .requirement-flag {
+      font-size: 1.5rem;
+    }
+  </style>
+</head>
+<body>
+  <section class="section">
+    <div class="section-title">
+      <h2>📜 Services Notariés & Légalisation</h2>
+      <p>Certification de documents pour une validité internationale</p>
+    </div>
+
+    <div class="notary-services">
+      <div class="notary-card">
+        <h3>🖋️ Certification Notariée</h3>
+        <p>Certification de signatures et copies conformes par notaire</p>
+        <div class="document-types">
+          <span class="document-tag">Contrats</span>
+          <span class="document-tag">Diplômes</span>
+          <span class="document-tag">Attestations</span>
+        </div>
+      </div>
+
+      <div class="notary-card">
+        <h3>🌍 Apostille de La Haye</h3>
+        <p>Légalisation simplifiée pour les pays membres de la Convention</p>
+        <div class="document-types">
+          <span class="document-tag">Actes d'état civil</span>
+          <span class="document-tag">Documents juridiques</span>
+          <span class="document-tag">Certificats</span>
+        </div>
+      </div>
+
+      <div class="notary-card">
+        <h3>🏛️ Légalisation Consulaire</h3>
+        <p>Légalisation par les ambassades et consulats concernés</p>
+        <div class="document-types">
+          <span class="document-tag">Documents commerciaux</span>
+          <span class="document-tag">Pouvoirs</span>
+          <span class="document-tag">Déclarations</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Exigences par Pays -->
+    <div class="country-requirements">
+      <h3 style="text-align: center; margin-bottom: 2rem;">📋 Exigences par Pays</h3>
+      
+      <div class="requirement-item">
+        <div class="requirement-flag">🇫🇷</div>
+        <div>
+          <h4>France</h4>
+          <p>Apostille de La Haye acceptée - Traduction assermentée requise</p>
+        </div>
+      </div>
+
+      <div class="requirement-item">
+        <div class="requirement-flag">🇨🇳</div>
+        <div>
+          <h4>Chine</h4>
+          <p>Légalisation consulaire obligatoire - Traduction certifiée nécessaire</p>
+        </div>
+      </div>
+
+      <div class="requirement-item">
+        <div class="requirement-flag">🇷🇺</div>
+        <div>
+          <h4>Russie</h4>
+          <p>Légalisation par le consulat russe - Documents notariés</p>
+        </div>
+      </div>
+
+      <div class="requirement-item">
+        <div class="requirement-flag">🇺🇸</div>
+        <div>
+          <h4>États-Unis</h4>
+          <p>Apostille de La Haye - Certification notariée requise</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</body>
+</html>

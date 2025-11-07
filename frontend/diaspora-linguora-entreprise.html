@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="shortcut icon" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="apple-touch-icon" href="/frontend/static/DiasLogo.jpeg">
+  <title>Services Entreprises - Diaspora Linguora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    .enterprise-hero {
+      background: linear-gradient(135deg, 
+        rgba(37, 99, 235, 0.9) 0%, 
+        rgba(30, 64, 175, 0.8) 50%, 
+        rgba(23, 37, 84, 0.8) 100%),
+        url('https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover;
+      color: white;
+      padding: 8rem 2rem 4rem;
+      text-align: center;
+      border-radius: 0 0 40px 40px;
+    }
+
+    .enterprise-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 2rem;
+      padding: 4rem 5%;
+    }
+
+    .enterprise-card {
+      background: linear-gradient(145deg, #ffffff, #f8fafc);
+      border-radius: 25px;
+      padding: 3rem 2rem;
+      text-align: center;
+      box-shadow: 20px 20px 60px #d1d9e6, -20px -20px 60px #ffffff;
+      transition: all 0.4s ease;
+      border: 3px solid transparent;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .enterprise-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, #1e40af, #3730a3);
+    }
+
+    .enterprise-card:hover {
+      transform: translateY(-10px);
+      border-color: #1e40af;
+      box-shadow: 0 25px 50px rgba(30, 64, 175, 0.15);
+    }
+
+    .enterprise-icon {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #1e40af, #3730a3);
+      border-radius: 50%;
+      margin: 0 auto 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 2.5rem;
+    }
+
+    .sector-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin: 3rem 0;
+    }
+
+    .sector-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+      border-left: 4px solid #1e40af;
+    }
+
+    .sector-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(30, 64, 175, 0.2);
+    }
+
+    .client-logos {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      flex-wrap: wrap;
+      margin: 3rem 0;
+      padding: 2rem;
+      background: #f8fafc;
+      border-radius: 20px;
+    }
+
+    .client-logo {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #1e40af;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+    }
+
+    .client-logo:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .enterprise-cta {
+      background: linear-gradient(135deg, #1e40af, #3730a3);
+      color: white;
+      padding: 4rem 2rem;
+      text-align: center;
+      border-radius: 30px;
+      margin: 4rem 5%;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav style="display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 5%; background: rgba(255, 255, 255, 0.95); position: fixed; width: 100%; top: 0; z-index: 1000; box-shadow: 0 2px 20px rgba(0,0,0,0.1);">
+    <div style="font-weight: 800; font-size: 1.5rem; background: linear-gradient(135deg, #1e40af, #3730a3); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+      Diaspora Linguora
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="enterprise-hero">
+    <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">🏢 Solutions Entreprises</h1>
+    <p style="font-size: 1.3rem; max-width: 600px; margin: 0 auto;">
+      Services linguistiques premium pour vos projets internationaux
+    </p>
+  </section>
+
+  <!-- Services Grid -->
+  <section class="enterprise-grid">
+    <div class="enterprise-card">
+      <div class="enterprise-icon">
+        <i class="fas fa-file-contract"></i>
+      </div>
+      <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Traduction Commerciale</h3>
+      <p style="color: var(--text-light); margin-bottom: 2rem;">
+        Contrats, propositions commerciales, documents marketing
+      </p>
+      <ul style="text-align: left; list-style: none; margin: 2rem 0;">
+        <li style="margin: 1rem 0; display: flex; align-items: center; gap: 1rem;">
+          <i class="fas fa-check" style="color: #10b981;"></i>
+          <span>Traduction technique spécialisée</span>
+        </li>
+        <li style="margin: 1rem 0; display: flex; align-items: center; gap: 1rem;">
+          <i class="fas fa-check" style="color: #10b981;"></i>
+          <span>Adaptation culturelle des contenus</span>
+        </li>
+        <li style="margin: 1rem 0; display: flex; align-items: center; gap: 1rem;">
+          <i class="fas fa-check" style="color: #10b981;"></i>
+          <span>Validation par experts sectoriels</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="enterprise-card">
+      <div class="enterprise-icon">
+        <i class="fas fa-users"></i>
+      </div>
+      <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Formation Linguistique</h3>
+      <p style="color: var(--text-light); margin-bottom: 2rem;">
+        Cours sur mesure pour vos équipes internationales
+      </p>
+      <ul style="text-align: left; list-style: none; margin: 2rem 0;">
+        <li style="margin: 1rem 0; display: flex; align-items: center; gap: 1rem;">
+          <i class="fas fa-check" style="color: #10b981;"></i>
+          <span>Anglais des affaires</span>
+        </li>
+        <li style="margin: 1rem 0; display: flex; align-items: center; gap: 1rem;">
+          <i class="fas fa-check" style="color: #10b981;"></i>
+          <span>Préparation aux négociations</span>
+        </li>
+        <li style="margin: 1rem 0; display: flex; align-items: center; gap: 1rem;">
+          <i class="fas fa-check" style="color: #10b981;"></i>
+          <span>Communication interculturelle</span>
+        </li>
+      </ul>
+    </div>
+
+    <div class="enterprise-card">
+      <div class="enterprise-icon">
+        <i class="fas fa-globe"></i>
+      </div>
+      <h3 style="color: #1e40af; margin-bottom: 1.5rem;">Localisation Digitale</h3>
+      <p style="color: var(--text-light); margin-bottom: 2rem;">
+        Adaptation de vos sites web et applications mobiles
+      </p>
+      <ul style="text-align: left; list-style: none; margin: 2rem 0;">
+        <li style="margin: 1rem 0; display: flex; align-items: center; gap: 1rem;">
+          <i class="fas fa-check" style="color: #10b981;"></i>
+          <span>Traduction de sites e-commerce</span>
+        </li>
+        <li style="margin: 1rem 0; display: flex; align-items: center; gap: 1rem;">
+          <i class="fas fa-check" style="color: #10b981;"></i>
+          <span>Applications mobiles multilingues</span>
+        </li>
+        <li style="margin: 1rem 0; display: flex; align-items: center; gap: 1rem;">
+          <i class="fas fa-check" style="color: #10b981;"></i>
+          <span>SEO international</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Secteurs d'Activité -->
+  <section style="padding: 4rem 5%; background: #f8fafc;">
+    <div style="text-align: center; margin-bottom: 3rem;">
+      <h2 style="font-size: 2.5rem; color: #1e40af; margin-bottom: 1rem;">🏭 Secteurs d'Activité</h2>
+      <p style="font-size: 1.2rem; color: var(--text-light);">Expertise sectorielle pour une traduction précise</p>
+    </div>
+
+    <div class="sector-grid">
+      <div class="sector-card">
+        <div style="font-size: 2.5rem; margin-bottom: 1rem;">⚕️</div>
+        <h3 style="color: #1e40af;">Médical & Pharma</h3>
+        <p style="color: var(--text-light);">Documents réglementaires, notices, essais cliniques</p>
+      </div>
+
+      <div class="sector-card">
+        <div style="font-size: 2.5rem; margin-bottom: 1rem;">⚖️</div>
+        <h3 style="color: #1e40af;">Juridique</h3>
+        <p style="color: var(--text-light);">Contrats, actes notariés, documents judiciaires</p>
+      </div>
+
+      <div class="sector-card">
+        <div style="font-size: 2.5rem; margin-bottom: 1rem;">💻</div>
+        <h3 style="color: #1e40af;">Technologie</h3>
+        <p style="color: var(--text-light);">Documentation technique, logiciels, IA</p>
+      </div>
+
+      <div class="sector-card">
+        <div style="font-size: 2.5rem; margin-bottom: 1rem;">🏦</div>
+        <h3 style="color: #1e40af;">Finance</h3>
+        <p style="color: var(--text-light);">Rapports annuels, prospectus, analyses</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Clients -->
+  <section style="padding: 4rem 5%;">
+    <div style="text-align: center; margin-bottom: 3rem;">
+      <h2 style="font-size: 2.5rem; color: #1e40af; margin-bottom: 1rem;">🤝 Nos Clients</h2>
+      <p style="font-size: 1.2rem; color: var(--text-light);">Ils nous font confiance pour leurs projets internationaux</p>
+    </div>
+
+    <div class="client-logos">
+      <div class="client-logo">ORANGE</div>
+      <div class="client-logo">TOTAL</div>
+      <div class="client-logo">AIR FRANCE</div>
+      <div class="client-logo">BNP</div>
+      <div class="client-logo">SOCIETE GENERALE</div>
+    </div>
+  </section>
+
+  <!-- CTA Entreprise -->
+  <section class="enterprise-cta">
+    <h2 style="font-size: 2.5rem; margin-bottom: 1.5rem;">Prêt à Internationaliser Votre Entreprise ?</h2>
+    <p style="font-size: 1.2rem; margin-bottom: 2rem; opacity: 0.9;">
+      Obtenez un devis personnalisé pour vos besoins linguistiques
+    </p>
+    <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;">
+      <button style="background: white; color: #1e40af; border: none; padding: 1.2rem 2.5rem; border-radius: 15px; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease;" 
+              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 8px 25px rgba(255,255,255,0.3)'" 
+              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='none'">
+        📞 Demander un Devis
+      </button>
+      <button style="background: transparent; color: white; border: 2px solid white; padding: 1.2rem 2.5rem; border-radius: 15px; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.3s ease;" 
+              onmouseover="this.style.background='white'; this.style.color='#1e40af'" 
+              onmouseout="this.style.background='transparent'; this.style.color='white'">
+        📧 Nous Contacter
+      </button>
+    </div>
+  </section>
+</body>
+</html>

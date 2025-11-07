@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="shortcut icon" href="/frontend/static/DiasLogo.jpeg">
+    <link rel="apple-touch-icon" href="/frontend/static/DiasLogo.jpeg">
+  <title>Calendrier des Tours - Diaspora Linguora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #667eea;
+      --primary-dark: #5a6fd8;
+      --secondary: #764ba2;
+      --accent: #f093fb;
+      --success: #4fd1c7;
+      --warning: #f6ad55;
+      --danger: #fc8181;
+      --dark: #2d3748;
+      --light: #f7fafc;
+      --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 60px 0 40px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff" opacity="0.1"><polygon points="1000,100 1000,0 0,100"></polygon></svg>');
+      background-size: cover;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 20px;
+      top: 20px;
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition);
+    }
+
+    .back-btn:hover {
+      transform: translateX(-5px);
+    }
+
+    .destination-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+
+    .destination-flag {
+      font-size: 4rem;
+    }
+
+    .destination-info h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+
+    .destination-info p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+
+    /* Navigation */
+    .calendar-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      margin: -30px auto 40px;
+      position: relative;
+      z-index: 10;
+      max-width: 1200px;
+    }
+
+    .month-navigation {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .nav-btn {
+      background: var(--light);
+      border: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .nav-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .current-month {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--dark);
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .view-options {
+      display: flex;
+      gap: 10px;
+    }
+
+    .view-btn {
+      background: var(--light);
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+
+    .view-btn.active {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Calendrier */
+    .calendar-container {
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 30px;
+      margin-bottom: 50px;
+    }
+
+    .calendar {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .calendar-header {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .day-header {
+      padding: 15px;
+      background: var(--light);
+      border-radius: 10px;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      padding: 15px;
+      border: 2px solid var(--light);
+      border-radius: 15px;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .calendar-day:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .calendar-day.available {
+      background: linear-gradient(135deg, #e6fffa, #b2f5ea);
+      border-color: var(--success);
+    }
+
+    .calendar-day.fully-booked {
+      background: linear-gradient(135deg, #fed7d7, #feb2b2);
+      border-color: var(--danger);
+      opacity: 0.7;
+    }
+
+    .calendar-day.limited {
+      background: linear-gradient(135deg, #feebc8, #fbd38d);
+      border-color: var(--warning);
+    }
+
+    .day-number {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+
+    .availability-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      align-self: flex-end;
+    }
+
+    .available .availability-dot {
+      background: var(--success);
+    }
+
+    .limited .availability-dot {
+      background: var(--warning);
+    }
+
+    .fully-booked .availability-dot {
+      background: var(--danger);
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+
+    .selected-date-info {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .selected-date {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .availability-status {
+      display: inline-block;
+      padding: 8px 20px;
+      border-radius: 25px;
+      font-weight: 600;
+      margin-bottom: 15px;
+    }
+
+    .status-available {
+      background: var(--success);
+      color: white;
+    }
+
+    .status-limited {
+      background: var(--warning);
+      color: white;
+    }
+
+    .status-booked {
+      background: var(--danger);
+      color: white;
+    }
+
+    .tour-details {
+      margin-bottom: 30px;
+    }
+
+    .detail-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .detail-label {
+      font-weight: 500;
+      color: #718096;
+    }
+
+    .detail-value {
+      font-weight: 600;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--primary);
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    .booking-form {
+      margin-top: 30px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid #e2e8f0;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .form-group input:focus, .form-group select:focus {
+      border-color: var(--primary);
+      outline: none;
+    }
+
+    .book-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      margin-top: 10px;
+    }
+
+    .book-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .book-btn:disabled {
+      background: #a0aec0;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Liste des tours */
+    .tours-list {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin-bottom: 50px;
+    }
+
+    .tours-list h2 {
+      margin-bottom: 25px;
+      font-size: 1.8rem;
+      color: var(--dark);
+    }
+
+    .tour-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 15px;
+      margin-bottom: 15px;
+      transition: var(--transition);
+    }
+
+    .tour-item:hover {
+      border-color: var(--primary);
+      transform: translateX(5px);
+    }
+
+    .tour-date {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: var(--dark);
+    }
+
+    .tour-availability {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .spots-left {
+      background: var(--light);
+      padding: 5px 12px;
+      border-radius: 15px;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .book-tour-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 500;
+    }
+
+    .book-tour-btn:hover {
+      background: var(--primary-dark);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .calendar-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        position: static;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .destination-header {
+        flex-direction: column;
+        text-align: center;
+      }
+      
+      .calendar-nav {
+        flex-direction: column;
+        gap: 20px;
+      }
+      
+      .calendar-grid {
+        gap: 5px;
+      }
+      
+      .calendar-day {
+        padding: 8px;
+      }
+    }
+  </style>
+   <style>
+    /* ... (VOTRE CSS EXISTANT RESTE IDENTIQUE) ... */
+
+    /* Modal de Réservation */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      position: relative;
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: #718096;
+    }
+
+    .modal-title {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 30px;
+      font-size: 1.8rem;
+    }
+
+    .participant-form {
+      margin-bottom: 25px;
+      padding: 20px;
+      background: var(--light);
+      border-radius: 15px;
+      border: 2px solid #e2e8f0;
+    }
+
+    .participant-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .participant-number {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .remove-participant {
+      background: var(--danger);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 0.8rem;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+    }
+
+    .add-participant-btn {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: 20px;
+      width: 100%;
+      transition: var(--transition);
+    }
+
+    .add-participant-btn:hover {
+      background: #38a169;
+      transform: translateY(-2px);
+    }
+
+    .submit-reservation {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1.1rem;
+      width: 100%;
+      transition: var(--transition);
+    }
+
+    .submit-reservation:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    /* Modal de Confirmation */
+    .confirmation-modal {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .confirmation-icon {
+      font-size: 4rem;
+      color: var(--success);
+      margin-bottom: 20px;
+    }
+
+    .confirmation-title {
+      color: var(--success);
+      font-size: 2rem;
+      margin-bottom: 15px;
+    }
+
+    .confirmation-message {
+      color: #718096;
+      margin-bottom: 30px;
+      line-height: 1.6;
+    }
+
+    .confirmation-btn {
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+    }
+
+    .confirmation-btn:hover {
+      background: #38a169;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+  <!-- Header avec informations de la destination -->
+  <header class="header">
+    <div class="container">
+      <a href="diaspora-linguora-destinations.html" class="back-btn">
+        <i class="fas fa-arrow-left"></i> Retour aux destinations
+      </a>
+      <div class="header-content">
+        <div class="destination-header">
+          <div class="destination-flag" id="destinationFlag">🇨🇮</div>
+          <div class="destination-info">
+            <h1 id="destinationName">Côte d'Ivoire</h1>
+            <p id="destinationDescription">Tour Culturel & Découverte - 7 jours</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Navigation du calendrier -->
+    <div class="calendar-nav">
+      <div class="month-navigation">
+        <button class="nav-btn" id="prevMonth">
+          <i class="fas fa-chevron-left"></i>
+        </button>
+        <div class="current-month" id="currentMonth">Janvier 2024</div>
+        <button class="nav-btn" id="nextMonth">
+          <i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <div class="view-options">
+        <button class="view-btn active" data-view="calendar">Calendrier</button>
+        <button class="view-btn" data-view="list">Liste des Tours</button>
+      </div>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="calendar-container">
+      <!-- Calendrier -->
+      <div class="calendar" id="calendarView">
+        <div class="calendar-header">
+          <div class="day-header">Lun</div>
+          <div class="day-header">Mar</div>
+          <div class="day-header">Mer</div>
+          <div class="day-header">Jeu</div>
+          <div class="day-header">Ven</div>
+          <div class="day-header">Sam</div>
+          <div class="day-header">Dim</div>
+        </div>
+        <div class="calendar-grid" id="calendarGrid">
+          <!-- Les jours seront générés par JavaScript -->
+        </div>
+      </div>
+
+      <!-- Sidebar avec informations de réservation -->
+      <div class="sidebar">
+        <div class="selected-date-info">
+          <div class="selected-date" id="selectedDate">Sélectionnez une date</div>
+          <div class="availability-status" id="availabilityStatus">Disponible</div>
+          <p id="selectedDateInfo">Choisissez une date pour voir les détails du tour</p>
+        </div>
+
+        <div class="tour-details">
+          <div class="detail-item">
+            <span class="detail-label">Durée:</span>
+            <span class="detail-value">7 jours / 6 nuits</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Langues:</span>
+            <span class="detail-value">Français, Anglais</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Groupe max:</span>
+            <span class="detail-value">15 personnes</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Départ de:</span>
+            <span class="detail-value">Abidjan</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Inclus:</span>
+            <span class="detail-value">Hébergement, repas, transport</span>
+          </div>
+        </div>
+
+        <div class="price" id="tourPrice">450 000 FCFA</div>
+
+        <div class="booking-form">
+          <div class="form-group">
+            <label for="participants">Nombre de participants:</label>
+            <select id="participants">
+              <option value="1">1 personne</option>
+              <option value="2">2 personnes</option>
+              <option value="3">3 personnes</option>
+              <option value="4">4 personnes</option>
+              <option value="5">5 personnes</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="language">Langue préférée:</label>
+            <select id="language">
+              <option value="fr">Français</option>
+              <option value="en">Anglais</option>
+              <option value="en">Russe</option>
+              <option value="en">Chinois</option>
+            </select>
+          </div>
+          <button class="book-btn" id="bookButton" disabled>Réserver maintenant</button>
+        </div>
+      </div>
+    </div>
+    <!-- Modal de Réservation -->
+  <div class="modal-overlay" id="reservationModal">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal">&times;</button>
+      <h2 class="modal-title">📝 Formulaire de Réservation</h2>
+      
+      <div id="reservationForm">
+        <!-- Les formulaires des participants seront ajoutés ici -->
+      </div>
+
+      <button class="add-participant-btn" id="addParticipant">
+        <i class="fas fa-plus"></i> Ajouter un Participant
+      </button>
+
+      <button class="submit-reservation" id="submitReservation">
+        <i class="fas fa-check"></i> Confirmer la Réservation
+      </button>
+    </div>
+  </div>
+
+  <!-- Modal de Confirmation -->
+  <div class="modal-overlay" id="confirmationModal">
+    <div class="modal-content confirmation-modal">
+      <div class="confirmation-icon">✅</div>
+      <h2 class="confirmation-title">Félicitations !</h2>
+      <p class="confirmation-message">
+        Vous êtes enregistré pour ce tour.<br>
+        Un email de confirmation vous sera envoyé sous peu.
+      </p>
+      <button class="confirmation-btn" id="closeConfirmation">Fermer</button>
+    </div>
+  </div>
+
+    <!-- Liste des tours (vue alternative) -->
+    <div class="tours-list" id="listView" style="display: none;">
+      <h2>Prochains Départs Disponibles</h2>
+      <div id="toursList">
+        <!-- Les tours seront générés par JavaScript -->
+      </div>
+    </div>
+  </div>
+
+
+    <script>
+    // Données des destinations (doivent correspondre à celles de l'admin)
+    const destinations = {
+      'cote-ivoire': {
+        name: 'Côte d\'Ivoire',
+        flag: '🇨🇮',
+        description: 'Tour Culturel & Découverte - 7 jours',
+        price: '450 000 FCFA',
+        duration: '7 jours / 6 nuits',
+        languages: 'Français, Anglais',
+        maxGroup: 15,
+        departure: 'Abidjan',
+        includes: 'Hébergement, repas, transport'
+      },
+      'tanzanie': {
+        name: 'Tanzanie',
+        flag: '🇹🇿',
+        description: 'Safari Aventure - 10 jours',
+        price: '1 200 000 FCFA',
+        duration: '10 jours / 9 nuits',
+        languages: 'Anglais, Français, Swahili',
+        maxGroup: 12,
+        departure: 'Arusha',
+        includes: 'Hébergement, repas, safari, vols internes'
+      },
+      'ghana': {
+        name: 'Ghana',
+        flag: '🇬🇭',
+        description: 'Tour Historique & Culturel - 8 jours',
+        price: '380 000 FCFA', // Ce prix sera écrasé par les données du tour
+        duration: '8 jours / 7 nuits',
+        languages: 'Anglais, Français',
+        maxGroup: 18,
+        departure: 'Accra',
+        includes: 'Hébergement, repas, transport, guides'
+      },
+      // ... autres destinations ...
+    };
+
+    // Variables globales
+    let tours = [];
+    let availabilityData = {};
+    let currentDate = new Date();
+    let selectedDate = null;
+    let currentDestination = 'cote-ivoire';
+    let selectedTour = null; // Nouvelle variable pour stocker le tour sélectionné
+
+    // Fonction pour charger les tours depuis le localStorage
+    function loadToursData() {
+      try {
+        // Charger depuis le localStorage
+        const savedTours = localStorage.getItem('diasporaTours');
+        if (savedTours) {
+          tours = JSON.parse(savedTours);
+          processToursData();
+          return true;
+        }
+      } catch (error) {
+        console.log('Erreur lors du chargement des tours:', error);
+      }
+      return false;
+    }
+
+    // Traiter les données des tours pour le calendrier
+    function processToursData() {
+      availabilityData = {};
+      
+      tours.forEach(tour => {
+        try {
+          const date = new Date(tour.date);
+          if (isNaN(date.getTime())) {
+            console.error('Date invalide pour le tour:', tour);
+            return;
+          }
+          
+          const year = date.getFullYear();
+          const month = date.getMonth() + 1;
+          const day = date.getDate();
+          const monthKey = `${year}-${String(month).padStart(2, '0')}`;
+          
+          if (!availabilityData[monthKey]) {
+            availabilityData[monthKey] = {};
+          }
+          
+          // Stocker TOUTES les données du tour, pas seulement status et spots
+          availabilityData[monthKey][day] = {
+            status: tour.status || 'available',
+            spots: tour.spots || 15,
+            tourId: tour.id,
+            tourData: tour // Stocker toutes les données du tour
+          };
+        } catch (error) {
+          console.error('Erreur de traitement du tour:', tour, error);
+        }
+      });
+    }
+
+    // Initialisation
+    document.addEventListener('DOMContentLoaded', function() {
+      // Récupérer la destination depuis l'URL
+      const urlParams = new URLSearchParams(window.location.search);
+      const destinationParam = urlParams.get('destination');
+      if (destinationParam && destinations[destinationParam]) {
+        currentDestination = destinationParam;
+      }
+
+      // Charger les tours et initialiser
+      loadToursData();
+      updateDestinationInfo();
+      generateCalendar();
+      setupEventListeners();
+    });
+
+    function updateDestinationInfo() {
+      const dest = destinations[currentDestination];
+      if (!dest) {
+        console.error('Destination non trouvée:', currentDestination);
+        return;
+      }
+      
+      document.getElementById('destinationFlag').textContent = dest.flag;
+      document.getElementById('destinationName').textContent = dest.name;
+      document.getElementById('destinationDescription').textContent = dest.description;
+      
+      // Le prix sera mis à jour dynamiquement quand un tour sera sélectionné
+      document.getElementById('tourPrice').textContent = 'Sélectionnez une date';
+      
+      // Mettre à jour les détails de base de la destination
+      const detailItems = document.querySelectorAll('.detail-item');
+      if (detailItems.length >= 5) {
+        detailItems[0].querySelector('.detail-value').textContent = dest.duration;
+        detailItems[1].querySelector('.detail-value').textContent = dest.languages;
+        detailItems[2].querySelector('.detail-value').textContent = dest.maxGroup + ' personnes';
+        detailItems[3].querySelector('.detail-value').textContent = dest.departure;
+        detailItems[4].querySelector('.detail-value').textContent = dest.includes;
+      }
+    }
+
+    function generateCalendar() {
+      const calendarGrid = document.getElementById('calendarGrid');
+      if (!calendarGrid) {
+        console.error('Élément calendarGrid non trouvé');
+        return;
+      }
+      
+      calendarGrid.innerHTML = '';
+
+      const year = currentDate.getFullYear();
+      const month = currentDate.getMonth();
+      
+      // Mettre à jour le mois affiché
+      const monthNames = ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 
+                         'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'];
+      document.getElementById('currentMonth').textContent = `${monthNames[month]} ${year}`;
+
+      // Premier jour du mois
+      const firstDay = new Date(year, month, 1);
+      // Dernier jour du mois
+      const lastDay = new Date(year, month + 1, 0);
+      
+      // Jours du mois précédent pour compléter
+      const startingDay = firstDay.getDay() === 0 ? 6 : firstDay.getDay() - 1;
+      
+      // Générer les jours vides du mois précédent
+      for (let i = 0; i < startingDay; i++) {
+        const emptyDay = document.createElement('div');
+        emptyDay.className = 'calendar-day empty';
+        calendarGrid.appendChild(emptyDay);
+      }
+
+      // Jours du mois actuel
+      for (let day = 1; day <= lastDay.getDate(); day++) {
+        const dayElement = document.createElement('div');
+        dayElement.className = 'calendar-day';
+        dayElement.innerHTML = `
+          <div class="day-number">${day}</div>
+          <div class="availability-dot"></div>
+        `;
+
+        // Vérifier la disponibilité
+        const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
+        if (availabilityData[monthKey] && availabilityData[monthKey][day]) {
+          const availability = availabilityData[monthKey][day];
+          dayElement.classList.add(availability.status);
+          dayElement.setAttribute('data-spots', availability.spots);
+          dayElement.setAttribute('data-tour-id', availability.tourId);
+        }
+
+        dayElement.addEventListener('click', () => selectDate(day, month, year));
+        calendarGrid.appendChild(dayElement);
+      }
+    }
+
+    function selectDate(day, month, year) {
+      selectedDate = new Date(year, month, day);
+      
+      // Mettre à jour l'interface
+      const dateString = selectedDate.toLocaleDateString('fr-FR', { 
+        weekday: 'long', 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      });
+      document.getElementById('selectedDate').textContent = dateString;
+
+      // Vérifier la disponibilité et récupérer les données du tour
+      const monthKey = `${year}-${String(month + 1).padStart(2, '0')}`;
+      let availabilityInfo = 'Aucune information disponible';
+      let statusClass = 'status-booked';
+      let spots = 0;
+      selectedTour = null;
+
+      if (availabilityData[monthKey] && availabilityData[monthKey][day]) {
+        const availability = availabilityData[monthKey][day];
+        spots = availability.spots;
+        selectedTour = availability.tourData; // Récupérer les données complètes du tour
+        
+        if (availability.status === 'available') {
+          availabilityInfo = `${spots} places disponibles`;
+          statusClass = 'status-available';
+          document.getElementById('bookButton').disabled = false;
+        } else if (availability.status === 'limited') {
+          availabilityInfo = `Seulement ${spots} places restantes`;
+          statusClass = 'status-limited';
+          document.getElementById('bookButton').disabled = false;
+        } else {
+          availabilityInfo = 'Complet';
+          statusClass = 'status-booked';
+          document.getElementById('bookButton').disabled = true;
+        }
+
+        // METTRE À JOUR LE PRIX AVEC LA VALEUR RÉELLE DU TOUR
+        if (selectedTour && selectedTour.price) {
+          document.getElementById('tourPrice').textContent = selectedTour.price;
+          
+          // Mettre à jour aussi la description si elle existe
+          if (selectedTour.description) {
+            document.getElementById('destinationDescription').textContent = selectedTour.description;
+          }
+          
+          // Mettre à jour la durée si elle existe
+          if (selectedTour.duration) {
+            document.querySelector('.detail-item:nth-child(1) .detail-value').textContent = 
+              `${selectedTour.duration} jours / ${selectedTour.duration - 1} nuits`;
+          }
+        }
+      } else {
+        availabilityInfo = 'Pas de tour programmé';
+        document.getElementById('bookButton').disabled = true;
+        document.getElementById('tourPrice').textContent = 'Sélectionnez une date';
+        // Revenir aux informations de base de la destination
+        updateDestinationInfo();
+      }
+
+      document.getElementById('availabilityStatus').textContent = availabilityInfo;
+      document.getElementById('availabilityStatus').className = `availability-status ${statusClass}`;
+      document.getElementById('selectedDateInfo').textContent = availabilityInfo;
+    }
+
+    function setupEventListeners() {
+      // Navigation du mois
+      document.getElementById('prevMonth').addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() - 1);
+        generateCalendar();
+      });
+
+      document.getElementById('nextMonth').addEventListener('click', () => {
+        currentDate.setMonth(currentDate.getMonth() + 1);
+        generateCalendar();
+      });
+
+      // Changement de vue
+      document.querySelectorAll('.view-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.view-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          const view = this.getAttribute('data-view');
+          if (view === 'calendar') {
+            document.getElementById('calendarView').style.display = 'block';
+            document.getElementById('listView').style.display = 'none';
+          } else {
+            document.getElementById('calendarView').style.display = 'none';
+            document.getElementById('listView').style.display = 'block';
+            generateToursList();
+          }
+        });
+      });
+
+      // Réservation
+      document.getElementById('bookButton').addEventListener('click', function() {
+        if (!selectedDate || !selectedTour) {
+          alert('Veuillez sélectionner une date avec un tour disponible');
+          return;
+        }
+
+        const participants = document.getElementById('participants').value;
+        const language = document.getElementById('language').value;
+        
+        // Simulation de réservation avec les VRAIES données du tour
+        alert(`Réservation confirmée!\n\nDestination: ${destinations[currentDestination].name}\nDate: ${selectedDate.toLocaleDateString('fr-FR')}\nPrix: ${selectedTour.price}\nParticipants: ${participants}\nLangue: ${language === 'fr' ? 'Français' : 'Anglais'}\n\nMerci pour votre réservation!`);
+      });
+    }
+
+    function generateToursList() {
+      const toursList = document.getElementById('toursList');
+      if (!toursList) return;
+      
+      toursList.innerHTML = '';
+
+      if (tours.length === 0) {
+        toursList.innerHTML = '<p style="text-align: center; color: #718096; padding: 20px;">Aucun tour programmé pour le moment</p>';
+        return;
+      }
+
+      // Trier les tours par date
+      const sortedTours = tours
+        .filter(tour => {
+          try {
+            const tourDate = new Date(tour.date);
+            return !isNaN(tourDate.getTime()) && tourDate >= new Date();
+          } catch {
+            return false;
+          }
+        })
+        .sort((a, b) => new Date(a.date) - new Date(b.date));
+
+      sortedTours.forEach(tour => {
+        try {
+          const tourDate = new Date(tour.date);
+          if (isNaN(tourDate.getTime())) return;
+          
+          const tourItem = document.createElement('div');
+          tourItem.className = 'tour-item';
+          tourItem.innerHTML = `
+            <div class="tour-date">
+              <strong>${destinations[tour.destination]?.name || 'Destination'} ${destinations[tour.destination]?.flag || ''}</strong><br>
+              ${tourDate.toLocaleDateString('fr-FR', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}<br>
+              <small style="color: var(--primary); font-weight: 600;">${tour.price || 'Prix non spécifié'}</small>
+            </div>
+            <div class="tour-availability">
+              <span class="spots-left">${tour.spots || 15} places</span>
+              <button class="book-tour-btn" data-tour-id="${tour.id}">Réserver</button>
+            </div>
+          `;
+          toursList.appendChild(tourItem);
+        } catch (error) {
+          console.error('Erreur avec le tour:', tour, error);
+        }
+      });
+
+      // Ajouter les événements de réservation
+      document.querySelectorAll('.book-tour-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const tourId = this.getAttribute('data-tour-id');
+          const tour = tours.find(t => t.id === tourId);
+          if (tour) {
+            alert(`Réservation pour ${destinations[tour.destination]?.name || 'Destination'}\nDate: ${new Date(tour.date).toLocaleDateString('fr-FR')}\nPrix: ${tour.price}\n\nRedirection vers le formulaire de réservation...`);
+          }
+        });
+      });
+    }
+
+    // Recharger les tours périodiquement (pour les mises à jour en temps réel)
+    setInterval(() => {
+      if (loadToursData()) {
+        generateCalendar();
+        if (document.getElementById('listView').style.display !== 'none') {
+          generateToursList();
+        }
+      }
+    }, 5000); // Recharge toutes les 5 secondes
+  </script>
+
+<script>
+   
+
+    // Variables pour la réservation
+    let participants = [];
+
+    // Fonction pour ouvrir le modal de réservation
+    function openReservationModal() {
+      if (!selectedDate || !selectedTour) {
+        alert('Veuillez sélectionner une date avec un tour disponible');
+        return;
+      }
+
+      // Réinitialiser les participants
+      participants = [createEmptyParticipant()];
+      updateReservationForm();
+      
+      // Afficher le modal
+      document.getElementById('reservationModal').style.display = 'flex';
+    }
+
+    // Créer un participant vide
+    function createEmptyParticipant() {
+      return {
+        id: Date.now() + Math.random(),
+        nom: '',
+        prenom: '',
+        email: '',
+        telephone: '',
+        pays: '',
+        ville: ''
+      };
+    }
+
+    // Mettre à jour le formulaire de réservation
+    function updateReservationForm() {
+      const formContainer = document.getElementById('reservationForm');
+      formContainer.innerHTML = '';
+
+      participants.forEach((participant, index) => {
+        const participantForm = document.createElement('div');
+        participantForm.className = 'participant-form';
+        participantForm.innerHTML = `
+          <div class="participant-header">
+            <span class="participant-number">Participant ${index + 1}</span>
+            ${index > 0 ? `<button class="remove-participant" onclick="removeParticipant(${index})">
+              <i class="fas fa-times"></i> Supprimer
+            </button>` : ''}
+          </div>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Nom *</label>
+              <input type="text" value="${participant.nom}" 
+                     oninput="updateParticipant(${index}, 'nom', this.value)"
+                     placeholder="Votre nom" required>
+            </div>
+            <div class="form-group">
+              <label>Prénom *</label>
+              <input type="text" value="${participant.prenom}" 
+                     oninput="updateParticipant(${index}, 'prenom', this.value)"
+                     placeholder="Votre prénom" required>
+            </div>
+            <div class="form-group">
+              <label>Email *</label>
+              <input type="email" value="${participant.email}" 
+                     oninput="updateParticipant(${index}, 'email', this.value)"
+                     placeholder="votre@email.com" required>
+            </div>
+            <div class="form-group">
+              <label>Téléphone *</label>
+              <input type="tel" value="${participant.telephone}" 
+                     oninput="updateParticipant(${index}, 'telephone', this.value)"
+                     placeholder="+225 01 23 45 67 89" required>
+            </div>
+            <div class="form-group">
+              <label>Pays *</label>
+              <select onchange="updateParticipant(${index}, 'pays', this.value)" required>
+                <option value="">Choisir un pays</option>
+                <option value="Côte d'Ivoire">Côte d'Ivoire</option>
+                <option value="France">France</option>
+                <option value="Canada">Canada</option>
+                <option value="USA">USA</option>
+                <option value="Autre">Autre</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Ville</label>
+              <input type="text" value="${participant.ville}" 
+                     oninput="updateParticipant(${index}, 'ville', this.value)"
+                     placeholder="Votre ville">
+            </div>
+          </div>
+        `;
+        formContainer.appendChild(participantForm);
+      });
+    }
+
+    // Mettre à jour les données d'un participant
+    function updateParticipant(index, field, value) {
+      participants[index][field] = value;
+    }
+
+    // Ajouter un participant
+    function addParticipant() {
+      participants.push(createEmptyParticipant());
+      updateReservationForm();
+    }
+
+    // Supprimer un participant
+    function removeParticipant(index) {
+      participants.splice(index, 1);
+      updateReservationForm();
+    }
+
+    // Soumettre la réservation
+    function submitReservation() {
+      // Validation
+      for (let i = 0; i < participants.length; i++) {
+        const p = participants[i];
+        if (!p.nom || !p.prenom || !p.email || !p.telephone || !p.pays) {
+          alert(`Veuillez remplir tous les champs obligatoires pour le participant ${i + 1}`);
+          return;
+        }
+      }
+
+      // Créer l'objet réservation
+      const reservation = {
+        id: 'res_' + Date.now(),
+        tourId: selectedTour.id,
+        destination: currentDestination,
+        date: selectedDate.toISOString(),
+        prixTotal: selectedTour.price,
+        nombreParticipants: participants.length,
+        participants: participants,
+        dateReservation: new Date().toISOString(),
+        statut: 'confirmée'
+      };
+
+      // Sauvegarder la réservation
+      saveReservation(reservation);
+
+      // Afficher la confirmation
+      document.getElementById('reservationModal').style.display = 'none';
+      document.getElementById('confirmationModal').style.display = 'flex';
+    }
+
+    // Sauvegarder la réservation
+    function saveReservation(reservation) {
+      try {
+        // Charger les réservations existantes
+        let reservations = JSON.parse(localStorage.getItem('diasporaReservations') || '[]');
+        
+        // Ajouter la nouvelle réservation
+        reservations.push(reservation);
+        
+        // Sauvegarder
+        localStorage.setItem('diasporaReservations', JSON.stringify(reservations));
+        
+        console.log('Réservation sauvegardée:', reservation);
+      } catch (error) {
+        console.error('Erreur sauvegarde réservation:', error);
+      }
+    }
+
+    // Modifier l'événement de réservation existant
+    document.getElementById('bookButton').addEventListener('click', openReservationModal);
+
+    // Événements pour les nouveaux boutons
+    document.getElementById('addParticipant').addEventListener('click', addParticipant);
+    document.getElementById('submitReservation').addEventListener('click', submitReservation);
+    document.getElementById('closeModal').addEventListener('click', function() {
+      document.getElementById('reservationModal').style.display = 'none';
+    });
+    document.getElementById('closeConfirmation').addEventListener('click', function() {
+      document.getElementById('confirmationModal').style.display = 'none';
+    });
+
+    // Fermer les modals en cliquant à l'extérieur
+    document.querySelectorAll('.modal-overlay').forEach(modal => {
+      modal.addEventListener('click', function(e) {
+        if (e.target === this) {
+          this.style.display = 'none';
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

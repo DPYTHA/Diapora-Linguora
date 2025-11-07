@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Confirmation - Diaspora Linguora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Même style que Trad_commande.html */
+    :root {
+      --primary: #667eea;
+      --primary-dark: #5a6fd8;
+      --secondary: #764ba2;
+      --success: #48bb78;
+      --warning: #ed8936;
+      --danger: #f56565;
+      --dark: #2d3748;
+      --light: #f7fafc;
+      --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+    }
+
+    .success-card {
+      background: white;
+      border-radius: 20px;
+      padding: 50px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .success-icon {
+      width: 80px;
+      height: 80px;
+      background: var(--success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 30px;
+      color: white;
+      font-size: 2.5rem;
+    }
+
+    .success-card h1 {
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      color: var(--dark);
+    }
+
+    .success-card p {
+      color: #718096;
+      margin-bottom: 30px;
+    }
+
+    .order-info {
+      background: var(--light);
+      padding: 25px;
+      border-radius: 15px;
+      margin: 30px 0;
+      text-align: left;
+    }
+
+    .info-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      padding: 15px 30px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-weight: 600;
+      text-align: center;
+      transition: var(--transition);
+      display: inline-block;
+      margin: 5px;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-secondary {
+      background: var(--light);
+      color: var(--dark);
+      border: 2px solid #e2e8f0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="success-card">
+      <div class="success-icon">
+        <i class="fas fa-check"></i>
+      </div>
+      <h1>Commande Confirmée !</h1>
+      <p>Votre demande de traduction a été envoyée avec succès.</p>
+      
+      <div class="order-info" id="orderInfo">
+        <!-- Informations de la commande -->
+      </div>
+
+      <p><strong>Prochaine étape:</strong> Notre équipe vous contactera sous 24h pour confirmer les détails.</p>
+      
+      <div style="margin-top: 30px;">
+        <a href="diaspora-linguora-traduction.html" class="btn btn-primary">
+          <i class="fas fa-home"></i> Retour à l'accueil
+        </a>
+        <a href="#" class="btn btn-secondary" onclick="window.print()">
+          <i class="fas fa-print"></i> Imprimer
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const orderData = JSON.parse(localStorage.getItem('translationOrder'));
+      const orderInfo = document.getElementById('orderInfo');
+
+      if (orderData) {
+        orderInfo.innerHTML = `
+          <div class="info-item">
+            <span>N° de commande:</span>
+            <strong>${orderData.orderNumber}</strong>
+          </div>
+          <div class="info-item">
+            <span>Client:</span>
+            <span>${orderData.clientName}</span>
+          </div>
+          <div class="info-item">
+            <span>Email:</span>
+            <span>${orderData.clientEmail}</span>
+          </div>
+          <div class="info-item">
+            <span>Total:</span>
+            <strong>${orderData.total.toLocaleString('fr-FR')} RUB</strong>
+          </div>
+          <div class="info-item">
+            <span>Traduction:</span>
+            <span>${orderData.languageName}</span>
+          </div>
+        `;
+      }
+    });
+  </script>
+</body>
+</html>

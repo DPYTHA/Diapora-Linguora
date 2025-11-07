@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Devis Traduction - Diaspora Linguora</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #667eea;
+      --primary-dark: #5a6fd8;
+      --secondary: #764ba2;
+      --success: #48bb78;
+      --warning: #ed8936;
+      --danger: #f56565;
+      --dark: #2d3748;
+      --light: #f7fafc;
+      --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      color: var(--dark);
+      line-height: 1.6;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: white;
+      padding: 60px 0 40px;
+      text-align: center;
+      border-radius: 20px 20px 0 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" fill="%23ffffff" opacity="0.1"><polygon points="1000,100 1000,0 0,100"></polygon></svg>');
+      background-size: cover;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+    }
+
+    .header h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+    }
+
+    .header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Sélecteur de devise */
+    .currency-selector {
+      background: white;
+      padding: 30px;
+      border-radius: 0 0 20px 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .currency-title {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    .currency-options {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .currency-btn {
+      background: var(--light);
+      border: 2px solid #e2e8f0;
+      padding: 15px 25px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 140px;
+      justify-content: center;
+    }
+
+    .currency-btn:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .currency-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Sélecteur de langue */
+    .language-selector {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .language-title {
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      color: var(--dark);
+      font-weight: 600;
+    }
+
+    .language-options {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .language-btn {
+      background: var(--light);
+      border: 2px solid #e2e8f0;
+      padding: 15px 25px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 180px;
+      justify-content: center;
+    }
+
+    .language-btn:hover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .language-btn.active {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+      box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    /* Contenu principal */
+    .main-content {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+    }
+
+    /* Section documents */
+    .documents-section {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 30px;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .section-title i {
+      color: var(--primary);
+    }
+
+    .document-category {
+      margin-bottom: 40px;
+    }
+
+    .category-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 20px;
+      color: var(--dark);
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--light);
+    }
+
+    .document-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      margin-bottom: 15px;
+      transition: var(--transition);
+    }
+
+    .document-item:hover {
+      border-color: var(--primary);
+      transform: translateX(5px);
+    }
+
+    .document-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .document-icon {
+      width: 50px;
+      height: 50px;
+      background: var(--light);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    .document-name {
+      font-weight: 500;
+    }
+
+    .document-actions {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .price {
+      font-weight: 600;
+      color: var(--dark);
+      min-width: 100px;
+      text-align: right;
+    }
+
+    .quantity-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .quantity-btn {
+      width: 35px;
+      height: 35px;
+      border: 1px solid #e2e8f0;
+      background: white;
+      border-radius: 6px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .quantity-btn:hover {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .quantity {
+      width: 40px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    /* Panier */
+    .cart-section {
+      background: white;
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      height: fit-content;
+      position: sticky;
+      top: 20px;
+    }
+
+    .cart-items {
+      margin-bottom: 25px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-total {
+      display: flex;
+      justify-content: space-between;
+      padding: 20px 0;
+      border-top: 2px solid #e2e8f0;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--dark);
+    }
+
+    .order-btn {
+      width: 100%;
+      background: var(--success);
+      color: white;
+      border: none;
+      padding: 18px;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 20px;
+      box-shadow: 0 8px 20px rgba(72, 187, 120, 0.3);
+    }
+
+    .order-btn:hover {
+      background: #38a169;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(72, 187, 120, 0.4);
+    }
+
+    .empty-cart {
+      text-align: center;
+      color: #718096;
+      padding: 40px 20px;
+    }
+
+    .empty-cart i {
+      font-size: 3rem;
+      margin-bottom: 15px;
+      opacity: 0.5;
+    }
+
+    /* Conversion info */
+    .conversion-info {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #718096;
+    }
+
+    /* Responsive */
+    @media (max-width: 968px) {
+      .main-content {
+        grid-template-columns: 1fr;
+      }
+      
+      .currency-options, .language-options {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .currency-btn, .language-btn {
+        width: 200px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .document-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .document-actions {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .header h1 {
+        font-size: 2.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-content">
+        <h1>🌍 Devis Traduction & Légalisation</h1>
+        <p>Obtenez un devis instantané pour vos documents à traduire et légaliser</p>
+      </div>
+    </header>
+
+    <!-- Sélecteur de devise -->
+    <section class="currency-selector">
+      <h2 class="currency-title">Sélectionnez votre devise</h2>
+      <div class="currency-options">
+        <button class="currency-btn" data-currency="RUB">
+          <i class="fas fa-ruble-sign"></i> RUB (Rouble)
+        </button>
+        <button class="currency-btn" data-currency="FCFA">
+          <i class="fas fa-franc-sign"></i> FCFA
+        </button>
+        <button class="currency-btn" data-currency="USD">
+          <i class="fas fa-dollar-sign"></i> USD (Dollar)
+        </button>
+        <button class="currency-btn" data-currency="JPY">
+          <i class="fas fa-yen-sign"></i> JPY (Yen)
+        </button>
+      </div>
+      <div class="conversion-info" id="conversionInfo">
+        Taux de change basé sur les données Google
+      </div>
+    </section>
+
+    <!-- Sélecteur de langue -->
+    <section class="language-selector">
+      <h2 class="language-title">Sélectionnez la combinaison linguistique</h2>
+      <div class="language-options">
+        <button class="language-btn" data-lang="fr-ru">
+          <i class="fas fa-language"></i> Français → Russe
+        </button>
+        <button class="language-btn" data-lang="en-ru">
+          <i class="fas fa-language"></i> Anglais → Russe
+        </button>
+        <button class="language-btn" data-lang="fr-en">
+          <i class="fas fa-language"></i> Français → Anglais
+        </button>
+        <button class="language-btn" data-lang="en-fr">
+          <i class="fas fa-language"></i> Anglais → Français
+        </button>
+        <button class="language-btn" data-lang="ru-fr">
+          <i class="fas fa-language"></i> Russe → Français
+        </button>
+        <button class="language-btn" data-lang="ru-en">
+          <i class="fas fa-language"></i> Russe → Anglais
+        </button>
+      </div>
+      <div class="conversion-info">
+        Toutes les combinaisons incluent la traduction et la légalisation
+      </div>
+    </section>
+
+    <div class="main-content">
+      <!-- Section documents -->
+      <section class="documents-section">
+        <h2 class="section-title">
+          <i class="fas fa-file-alt"></i> Types de Documents
+        </h2>
+
+        <!-- Documents de Justice -->
+        <div class="document-category">
+          <h3 class="category-title">⚖️ Documents de Justice</h3>
+          
+          <div class="document-item">
+            <div class="document-info">
+              <div class="document-icon">
+                <i class="fas fa-gavel"></i>
+              </div>
+              <div>
+                <div class="document-name">Acte de naissance</div>
+                <small>Traduction + Légalisation</small>
+              </div>
+            </div>
+            <div class="document-actions">
+              <div class="price" data-price-rub="2000">2 000 RUB</div>
+              <div class="quantity-controls">
+                <button class="quantity-btn minus">-</button>
+                <span class="quantity">0</span>
+                <button class="quantity-btn plus">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="document-item">
+            <div class="document-info">
+              <div class="document-icon">
+                <i class="fas fa-balance-scale"></i>
+              </div>
+              <div>
+                <div class="document-name">Jugement</div>
+                <small>Traduction + Légalisation</small>
+              </div>
+            </div>
+            <div class="document-actions">
+              <div class="price" data-price-rub="1200">1 200 RUB</div>
+              <div class="quantity-controls">
+                <button class="quantity-btn minus">-</button>
+                <span class="quantity">0</span>
+                <button class="quantity-btn plus">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="document-item">
+            <div class="document-info">
+              <div class="document-icon">
+                <i class="fas fa-file-contract"></i>
+              </div>
+              <div>
+                <div class="document-name">Certificat de célibat</div>
+                <small>Traduction + Légalisation</small>
+              </div>
+            </div>
+            <div class="document-actions">
+              <div class="price" data-price-rub="1500">1 500 RUB</div>
+              <div class="quantity-controls">
+                <button class="quantity-btn minus">-</button>
+                <span class="quantity">0</span>
+                <button class="quantity-btn plus">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Documents d'Identité -->
+        <div class="document-category">
+          <h3 class="category-title">🆔 Documents d'Identité</h3>
+          
+          <div class="document-item">
+            <div class="document-info">
+              <div class="document-icon">
+                <i class="fas fa-passport"></i>
+              </div>
+              <div>
+                <div class="document-name">Passeport</div>
+                <small>Traduction + Légalisation</small>
+              </div>
+            </div>
+            <div class="document-actions">
+              <div class="price" data-price-rub="1700">1 700 RUB</div>
+              <div class="quantity-controls">
+                <button class="quantity-btn minus">-</button>
+                <span class="quantity">0</span>
+                <button class="quantity-btn plus">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="document-item">
+            <div class="document-info">
+              <div class="document-icon">
+                <i class="fas fa-id-card"></i>
+              </div>
+              <div>
+                <div class="document-name">Carte d'identité</div>
+                <small>Traduction + Légalisation</small>
+              </div>
+            </div>
+            <div class="document-actions">
+              <div class="price" data-price-rub="2500">2 500 RUB</div>
+              <div class="quantity-controls">
+                <button class="quantity-btn minus">-</button>
+                <span class="quantity">0</span>
+                <button class="quantity-btn plus">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="document-item">
+            <div class="document-info">
+              <div class="document-icon">
+                <i class="fas fa-id-badge"></i>
+              </div>
+              <div>
+                <div class="document-name">Permis de conduire</div>
+                <small>Traduction + Légalisation</small>
+              </div>
+            </div>
+            <div class="document-actions">
+              <div class="price" data-price-rub="3800">3 800 RUB</div>
+              <div class="quantity-controls">
+                <button class="quantity-btn minus">-</button>
+                <span class="quantity">0</span>
+                <button class="quantity-btn plus">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Documents Académiques -->
+        <div class="document-category">
+          <h3 class="category-title">🎓 Documents Académiques</h3>
+          
+          <div class="document-item">
+            <div class="document-info">
+              <div class="document-icon">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <div>
+                <div class="document-name">Diplôme</div>
+                <small>Traduction + Légalisation</small>
+              </div>
+            </div>
+            <div class="document-actions">
+              <div class="price" data-price-rub="1800">1 800 RUB</div>
+              <div class="quantity-controls">
+                <button class="quantity-btn minus">-</button>
+                <span class="quantity">0</span>
+                <button class="quantity-btn plus">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="document-item">
+            <div class="document-info">
+              <div class="document-icon">
+                <i class="fas fa-file-certificate"></i>
+              </div>
+              <div>
+                <div class="document-name">Relevé de notes</div>
+                <small>Traduction + Légalisation</small>
+              </div>
+            </div>
+            <div class="document-actions">
+              <div class="price" data-price-rub="1800">1 800 RUB</div>
+              <div class="quantity-controls">
+                <button class="quantity-btn minus">-</button>
+                <span class="quantity">0</span>
+                <button class="quantity-btn plus">+</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="document-item">
+            <div class="document-info">
+              <div class="document-icon">
+                <i class="fas fa-award"></i>
+              </div>
+              <div>
+                <div class="document-name">Attestation de formation</div>
+                <small>Traduction + Légalisation</small>
+              </div>
+            </div>
+            <div class="document-actions">
+              <div class="price" data-price-rub="1200">1 200 RUB</div>
+              <div class="quantity-controls">
+                <button class="quantity-btn minus">-</button>
+                <span class="quantity">0</span>
+                <button class="quantity-btn plus">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panier -->
+      <section class="cart-section">
+        <h2 class="section-title">
+          <i class="fas fa-shopping-cart"></i> Votre Devis
+        </h2>
+
+        <div class="cart-items" id="cartItems">
+          <div class="empty-cart">
+            <i class="fas fa-cart-plus"></i>
+            <p>Votre panier est vide</p>
+            <small>Sélectionnez des documents pour voir votre devis</small>
+          </div>
+        </div>
+
+        <div class="cart-total">
+          <span>Total:</span>
+          <span id="totalAmount">0 RUB</span>
+        </div>
+
+        <div class="language-info" id="languageInfo">
+          <small>Combinaison linguistique: <span id="selectedLanguage">Français → Russe</span></small>
+        </div>
+
+        <button class="order-btn" id="orderBtn" disabled>
+          <i class="fas fa-check-circle"></i> Commander
+        </button>
+
+        <div class="conversion-info">
+          <small>Prix convertis automatiquement selon la devise sélectionnée</small>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // Taux de change approximatifs (à remplacer par une API réelle)
+    const exchangeRates = {
+      RUB: 1,
+      FCFA: 0.15, // 1 RUB ≈ 0.15 FCFA
+      USD: 0.011, // 1 RUB ≈ 0.011 USD
+      JPY: 1.65   // 1 RUB ≈ 1.65 JPY
+    };
+
+    // Symboles de devise
+    const currencySymbols = {
+      RUB: 'RUB',
+      FCFA: 'FCFA',
+      USD: '$',
+      JPY: '¥'
+    };
+
+    // Noms des combinaisons linguistiques
+    const languageNames = {
+      'fr-ru': 'Français → Russe',
+      'en-ru': 'Anglais → Russe',
+      'fr-en': 'Français → Anglais',
+      'en-fr': 'Anglais → Français',
+      'ru-fr': 'Russe → Français',
+      'ru-en': 'Russe → Anglais'
+    };
+
+    let currentCurrency = 'RUB';
+    let currentLanguage = 'fr-ru';
+    let cart = [];
+
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialiser les boutons de devise
+      document.querySelectorAll('.currency-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Mettre à jour le bouton actif
+          document.querySelectorAll('.currency-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Changer la devise
+          currentCurrency = this.getAttribute('data-currency');
+          updateAllPrices();
+          updateCartDisplay();
+        });
+      });
+
+      // Initialiser les boutons de langue
+      document.querySelectorAll('.language-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          // Mettre à jour le bouton actif
+          document.querySelectorAll('.language-btn').forEach(b => b.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Changer la langue
+          currentLanguage = this.getAttribute('data-lang');
+          updateLanguageInfo();
+        });
+      });
+
+      // Initialiser les boutons de quantité
+      document.querySelectorAll('.quantity-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const documentItem = this.closest('.document-item');
+          const quantityElement = documentItem.querySelector('.quantity');
+          const priceElement = documentItem.querySelector('.price');
+          const documentName = documentItem.querySelector('.document-name').textContent;
+          const priceRub = parseFloat(priceElement.getAttribute('data-price-rub'));
+          
+          let quantity = parseInt(quantityElement.textContent);
+          
+          if (this.classList.contains('plus')) {
+            quantity++;
+          } else if (this.classList.contains('minus') && quantity > 0) {
+            quantity--;
+          }
+          
+          quantityElement.textContent = quantity;
+          updateCart(documentName, priceRub, quantity);
+        });
+      });
+
+      // Bouton de commande
+      document.getElementById('orderBtn').addEventListener('click', function() {
+        if (cart.length > 0) {
+          saveOrderData();
+          window.location.href = 'Trad_commande.html';
+        }
+      });
+
+      // Activer RUB par défaut
+      document.querySelector('[data-currency="RUB"]').classList.add('active');
+      
+      // Activer fr-ru par défaut
+      document.querySelector('[data-lang="fr-ru"]').classList.add('active');
+      updateLanguageInfo();
+    });
+
+    // Sauvegarder les données de commande
+   // Sauvegarder les données de commande
+function saveOrderData() {
+  const orderData = {
+    currency: currentCurrency,
+    language: currentLanguage,
+    languageName: languageNames[currentLanguage],
+    cart: cart,
+    total: calculateTotal(),
+    totalRub: calculateTotal(), // Total en RUB pour référence
+    date: new Date().toISOString(),
+    orderNumber: generateOrderNumber(),
+    status: 'en_attente',
+    clientEmail: '', // À remplir dans le formulaire suivant
+    clientPhone: '',
+    clientName: ''
+  };
+  
+  // Sauvegarder dans localStorage
+  localStorage.setItem('translationOrder', JSON.stringify(orderData));
+  
+  // Sauvegarder dans la base de données (localStorage pour l'exemple)
+  saveOrderToDatabase(orderData);
+}
+
+// Sauvegarder la commande dans le "dashboard admin"
+function saveOrderToDatabase(orderData) {
+  // Récupérer les commandes existantes
+  let allOrders = JSON.parse(localStorage.getItem('allTranslationOrders')) || [];
+  
+  // Ajouter la nouvelle commande
+  allOrders.push(orderData);
+  
+  // Sauvegarder
+  localStorage.setItem('allTranslationOrders', JSON.stringify(allOrders));
+  
+  // Mettre à jour le compteur de nouvelles commandes
+  updateAdminNotification();
+}
+
+// Mettre à jour la notification admin
+function updateAdminNotification() {
+  let pendingOrders = JSON.parse(localStorage.getItem('allTranslationOrders')) || [];
+  pendingOrders = pendingOrders.filter(order => order.status === 'en_attente');
+  
+  localStorage.setItem('pendingOrdersCount', pendingOrders.length);
+}
+
+    // Générer un numéro de commande
+    function generateOrderNumber() {
+      return 'TRAD-' + Date.now() + '-' + Math.random().toString(36).substr(2, 5).toUpperCase();
+    }
+
+    // Calculer le total
+    function calculateTotal() {
+      return cart.reduce((total, item) => {
+        return total + (item.priceRub * item.quantity);
+      }, 0);
+    }
+
+    // Mettre à jour tous les prix selon la devise
+    function updateAllPrices() {
+      document.querySelectorAll('.price').forEach(priceElement => {
+        const priceRub = parseFloat(priceElement.getAttribute('data-price-rub'));
+        const convertedPrice = convertPrice(priceRub, currentCurrency);
+        priceElement.textContent = formatPrice(convertedPrice, currentCurrency);
+      });
+    }
+
+    // Mettre à jour l'info de langue sélectionnée
+    function updateLanguageInfo() {
+      document.getElementById('selectedLanguage').textContent = languageNames[currentLanguage];
+    }
+
+    // Convertir le prix
+    function convertPrice(priceRub, currency) {
+      return priceRub * exchangeRates[currency];
+    }
+
+    // Formater le prix avec le symbole de devise
+    function formatPrice(price, currency) {
+      if (currency === 'RUB') {
+        return Math.round(price).toLocaleString('fr-FR') + ' RUB';
+      } else if (currency === 'FCFA') {
+        return Math.round(price).toLocaleString('fr-FR') + ' FCFA';
+      } else if (currency === 'USD') {
+        return '$' + price.toFixed(2);
+      } else if (currency === 'JPY') {
+        return '¥' + Math.round(price).toLocaleString('fr-FR');
+      }
+    }
+
+    // Mettre à jour le panier
+    function updateCart(documentName, priceRub, quantity) {
+      // Supprimer l'élément s'il existe déjà
+      cart = cart.filter(item => item.name !== documentName);
+      
+      // Ajouter si la quantité est > 0
+      if (quantity > 0) {
+        cart.push({
+          name: documentName,
+          priceRub: priceRub,
+          quantity: quantity
+        });
+      }
+      
+      updateCartDisplay();
+    }
+
+    // Mettre à jour l'affichage du panier
+    function updateCartDisplay() {
+      const cartItems = document.getElementById('cartItems');
+      const totalAmount = document.getElementById('totalAmount');
+      const orderBtn = document.getElementById('orderBtn');
+      
+      if (cart.length === 0) {
+        cartItems.innerHTML = `
+          <div class="empty-cart">
+            <i class="fas fa-cart-plus"></i>
+            <p>Votre panier est vide</p>
+            <small>Sélectionnez des documents pour voir votre devis</small>
+          </div>
+        `;
+        totalAmount.textContent = '0 ' + currencySymbols[currentCurrency];
+        orderBtn.disabled = true;
+      } else {
+        let cartHTML = '';
+        let total = 0;
+        
+        cart.forEach(item => {
+          const itemTotal = convertPrice(item.priceRub * item.quantity, currentCurrency);
+          total += itemTotal;
+          
+          cartHTML += `
+            <div class="cart-item">
+              <div>
+                <div>${item.name}</div>
+                <small>${item.quantity} × ${formatPrice(convertPrice(item.priceRub, currentCurrency), currentCurrency)}</small>
+              </div>
+              <div>${formatPrice(itemTotal, currentCurrency)}</div>
+            </div>
+          `;
+        });
+        
+        cartItems.innerHTML = cartHTML;
+        totalAmount.textContent = formatPrice(total, currentCurrency);
+        orderBtn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
