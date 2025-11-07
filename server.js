@@ -4,25 +4,25 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware pour servir les fichiers statiques
-app.use(express.static('public'));
+app.use(express.static('frontend'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes principales
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'splash.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'splash.html'));
 });
 
 app.get('/Trad_commande', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'Trad_commande.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'Trad_commande.html'));
 });
 
 app.get('/confirmation', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'confirmation.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'confirmation.html'));
 });
 
 app.get('/receiptdevis', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'receiptdevis.html'));
+    res.sendFile(path.join(__dirname, 'frontend', 'receiptdevis.html'));
 });
 
 // API pour les données (optionnel - pour persistance)
