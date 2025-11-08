@@ -1,7 +1,7 @@
 // Configuration Telegram automatique
 class TelegramNotifier {
     constructor() {
-        this.botToken = '8382796514:AAFP03lQVDrh2EAdOpPpREYnaZT-VMEKSTU';
+        this.botToken = '8098011610:AAHG9qxu4NsFC3I8vNQhZwYaV2WF8ThQ4-Y';
         this.chatId = this.getSavedChatId();
         this.enabled = true;
         this.initialized = false;
